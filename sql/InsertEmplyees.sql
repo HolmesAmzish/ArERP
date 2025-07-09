@@ -21,3 +21,5 @@ EXEC Insert_Employee
     @Position = N'Marketing Director',
     @Salary = 85000.00,
     @IsActive = 1;
+
+EXEC

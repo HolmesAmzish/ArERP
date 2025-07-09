@@ -1,0 +1,31 @@
+﻿@using System.Net.Http.Json
+@inject HttpClient Http
+
+@if (users == null)
+{
+    <p>正在加载...</p>
+}
+else
+{
+    <ul>
+        @foreach (var user in users)
+        {
+            <li>@user.Id - @user.Name</li>
+        }
+    </ul>
+}
+
+@code {
+    private List<User>? users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        users = await Http.GetFromJsonAsync<List<User>>("/api/UsersApi");
+    }
+
+    public class User
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+}
