@@ -1,26 +1,30 @@
-using Microsoft.EntityFrameworkCore;
+using ArERP.Models;
 using ArERP.Repository;
-using ArERP.Models.Entity;
+using Microsoft.EntityFrameworkCore;
 
-namespace ArERP
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IDerpartmentRepository, DepartmentRepository>();
+builder.Services.AddScoped<IEmployeeApplicationRepository, EmployeeApplicationRepository>();
+builder.Services.AddControllersWithViews();
+
+var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
-
-            builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-            builder.Services.AddControllersWithViews();
-
-            var app = builder.Build();
-
-            //app.UseHttpsRedirection();
-            app.UseAuthorization();
-            app.MapControllers();
-            app.Run();
-        }
-    }
+    var services = scope.ServiceProvider;
+    SeedData.Initialize(services);
 }
+
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAuthorization();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();

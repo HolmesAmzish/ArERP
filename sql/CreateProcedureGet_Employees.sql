@@ -1,5 +1,0 @@
-CREATE PROCEDURE Get_Employees
-AS
-BEGIN
-    SELECT * FROM Employees
-END

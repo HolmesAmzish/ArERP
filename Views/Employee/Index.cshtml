@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ArERP.Models.Entity.EmployeeEntity>
+﻿@model IEnumerable<ArERP.Models.Entity.Employee>
 
 <h2>员工列表</h2>
 
@@ -33,7 +33,7 @@
                 <td>@Html.DisplayFor(modelItem => item.Position)</td>
                 <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.EmployeeId">详情</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">详情</a>
                 </td>
             </tr>
         }

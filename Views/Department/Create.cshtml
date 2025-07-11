@@ -1,0 +1,12 @@
+@model ArERP.Models.Entity.Department
+
+<h2>添加部门</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <lable asp-for="DepartmentName"></lable>
+        <input asp-for="DepartmentName" class="form-control" />
+        <span asp-asp-validation-for="DepartmentName" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">确定</button>
+</form>
