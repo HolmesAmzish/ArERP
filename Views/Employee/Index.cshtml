@@ -24,13 +24,13 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.EmployeeName)</td>
-                <td>@Html.DisplayFor(modelItem => item.Gender)</td>
-                <td>@Html.DisplayFor(modelItem => item.BirthDate)</td>
+                <td>@item.EmployeeName</td>
+                <td>@item.Gender</td>
+                <td>@item.BirthDate</td>
                 <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                <td>@Html.DisplayFor(modelItem => item.Phone)</td>
-                <td>@Html.DisplayFor(modelItem => item.Department)</td>
-                <td>@Html.DisplayFor(modelItem => item.Position)</td>
+                <td>@item.Phone</td>
+                <td>@item.Department.DepartmentName</td>
+                <td>@item.Position</td>
                 <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.Id">详情</a>

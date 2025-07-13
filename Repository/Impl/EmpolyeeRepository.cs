@@ -14,7 +14,9 @@ namespace ArERP.Repository
 
         public List<Employee> GetAllEmployees()
         {
-            return _context.Employees.ToList();
+            return _context.Employees
+                .Include(e => e.Department)
+                .ToList();
         }
 
         public void AddEmployee(Employee employee)

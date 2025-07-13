@@ -22,9 +22,7 @@
                 <td>@item.DepartmentName</td>
                 <td>@item.CreationDate</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">编辑</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">详情</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">删除</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">详情</a>
                 </td>
             </tr>
         }

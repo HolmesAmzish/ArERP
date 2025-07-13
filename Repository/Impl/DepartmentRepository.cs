@@ -21,4 +21,15 @@ public class DepartmentRepository : IDerpartmentRepository
         _context.Departments.Add(department);
         _context.SaveChanges();
     }
+
+    public Department? GetDepartmentById(int id)
+    {
+        return _context.Departments.FirstOrDefault(d => d.Id == id);
+    }
+
+    public void UpdateDepartment(Department department)
+    {
+        _context.Departments.Update(department);
+        _context.SaveChanges();
+    }
 }

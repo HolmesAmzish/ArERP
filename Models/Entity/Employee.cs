@@ -5,11 +5,19 @@ namespace ArERP.Models.Entity;
 
 public class Employee
 {
+    // db field
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Display(Name = "工号")]
     public int Id { get; set; }
+    
+    [Display(Name = "部门")]
+    public int DepartmentId { get; set; }
+    
+    [ForeignKey("DepartmentId")]
+    public Department Department { get; set; }
 
+    // info field
     [Display(Name = "姓名")]
     [Required(ErrorMessage = "员工姓名不能为空")]
     [StringLength(100, ErrorMessage = "员工姓名长度不能超过100个字符")]
@@ -35,9 +43,6 @@ public class Employee
     [DataType(DataType.Date)]
     public DateTime HireDate { get; set; } = DateTime.Now;
 
-    [Display(Name = "部门")]
-    [StringLength(100)]
-    public string Department { get; set; }
 
     [Display(Name = "职位")]
     [StringLength(100)]

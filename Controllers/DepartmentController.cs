@@ -40,8 +40,48 @@ public class DepartmentController : Controller
     }
 
     [HttpGet]
-    public IActionResult Detail()
+    public IActionResult Details(int id)
     {
-        return View();
+        var department = _derpartmentRepository.GetDepartmentById(id);
+        if (department == null)
+        {
+            return NotFound();
+        }
+        return View(department);
+    }
+
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        var department = _derpartmentRepository.GetDepartmentById(id);
+        if (department == null)
+        {
+            return NotFound();
+        }
+        return View(department);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(int id, [Bind("Id,DepartmentName,CreationDate,Deleted")] Department department)
+    {
+        if (id != department.Id)
+        {
+            return NotFound();
+        }
+
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                _derpartmentRepository.UpdateDepartment(department);
+            }
+            catch
+            {
+                throw;
+            }
+            return RedirectToAction(nameof(Index));
+        }
+        return View(department);
     }
 }

@@ -21,4 +21,15 @@ public class EmployeeApplicationRepository : IEmployeeApplicationRepository
         _context.EmployeeApplications.Add(employeeApplication);
         _context.SaveChanges();
     }
+
+    public EmployeeApplication? GetEmployeeApplicationById(int id)
+    {
+        return _context.EmployeeApplications.FirstOrDefault(e => e.Id == id);
+    }
+
+    public void UpdateEmployeeApplication(EmployeeApplication employeeApplication)
+    {
+        _context.EmployeeApplications.Update(employeeApplication);
+        _context.SaveChanges();
+    }
 }
