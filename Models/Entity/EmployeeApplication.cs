@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ArERP.Models.Entity;
 
@@ -10,9 +11,14 @@ public class EmployeeApplication
     [Display(Name = "状态")]
     public ProcessStatus Status { get; set; } = ProcessStatus.Pending;
     public bool Deleted { get; set; } = false;
+    [Display(Name = "部门")]
+    public int DepartmentId { get; set; }
+    
+    [ForeignKey("DepartmentId")]
+    public Department Department { get; set; }
 
     // info field
-    [Required]
+    [Required(ErrorMessage = "姓名不能为空")]
     [Display(Name = "姓名")]
     public string Name { get; set; }
     [Display(Name = "性别")]
@@ -21,16 +27,14 @@ public class EmployeeApplication
     public DateTime DateOfBirth { get; set; }
     [Display(Name = "地址")]
     public string? Address { get; set; }
-    [Required]
+    [Required(ErrorMessage = "身份证不能为空")]
     [Display(Name = "身份证")]
     public string NationalId { get; set; }
-    [Required]
+    [Required(ErrorMessage = "电话不能为空")]
     [Display(Name = "电话")]
     public string Phone { get; set; }
     [Display(Name = "邮箱")]
     public string? Email { get; set; }
-    [Display(Name = "部门")]
-    public int DepartmentId { get; set; }
     [Display(Name = "审批人")]
     public string? Approver { get; set; }
     [Display(Name = "审批意见")]

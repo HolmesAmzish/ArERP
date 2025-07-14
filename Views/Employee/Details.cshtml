@@ -21,8 +21,9 @@
             @Html.DisplayNameFor(model => model.Gender)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Gender)
+            @(Model.Gender == "M" ? "男" : "女")
         </dd>
+
 
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.BirthDate)

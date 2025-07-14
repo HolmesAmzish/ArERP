@@ -1,5 +1,7 @@
+using ArERP.Configuration;
 using ArERP.Models;
 using ArERP.Repository;
+using ArERP.Repository.Impl;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +12,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IDerpartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IEmployeeApplicationRepository, EmployeeApplicationRepository>();
+builder.Services.AddScoped<IEmployeeSeparationRepository, EmployeeSeparationRepository>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.Configure<JsonWebTokenConfig>(
+    builder.Configuration.GetSection("JwtConfig"));
 
 var app = builder.Build();
 

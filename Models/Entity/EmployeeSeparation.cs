@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ArERP.Models.Entity;
 
@@ -8,10 +9,18 @@ public class EmployeeSeparation
     [Key]
     public int Id { get; set; }
     public int EmployeeId { get; set; }
+    [ForeignKey("EmployeeId")]
+    public Employee EmployeeInfo { get; set; }
+    [Display(Name = "状态")]
     public ProcessStatus Status { get; set; } = ProcessStatus.Pending;
-    
+
     // info field
-    public string EmployeeName { get; set; }
+    [Display(Name = "离职原因")]
     public string? SeparationReason { get; set; }
-    public DateTime SeparationDate { get; set; }
+    [Display(Name = "离职日期")]
+    public DateTime SeparationDate { get; set; } = DateTime.Now;
+    [Display(Name = "操作者")]
+    public string? Approver { get; set; }
+    [Display(Name = "审批意见")]
+    public string? ApprovalNote { get; set; }
 }

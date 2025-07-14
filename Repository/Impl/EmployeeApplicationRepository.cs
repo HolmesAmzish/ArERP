@@ -1,4 +1,5 @@
 using ArERP.Models.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArERP.Repository;
 
@@ -13,7 +14,9 @@ public class EmployeeApplicationRepository : IEmployeeApplicationRepository
     
     public List<EmployeeApplication> GetAllEmployeeApplications()
     {
-        return _context.EmployeeApplications.ToList();
+        return _context.EmployeeApplications
+            .Include(e => e.Department)
+            .ToList();
     }
 
     public void AddEmployeeApplication(EmployeeApplication employeeApplication)
@@ -24,7 +27,9 @@ public class EmployeeApplicationRepository : IEmployeeApplicationRepository
 
     public EmployeeApplication? GetEmployeeApplicationById(int id)
     {
-        return _context.EmployeeApplications.FirstOrDefault(e => e.Id == id);
+        return _context.EmployeeApplications
+            .Include(e => e.Department)
+            .FirstOrDefault(e => e.Id == id);
     }
 
     public void UpdateEmployeeApplication(EmployeeApplication employeeApplication)

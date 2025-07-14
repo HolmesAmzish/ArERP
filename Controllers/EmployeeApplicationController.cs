@@ -1,19 +1,27 @@
+using ArERP.Models;
 using ArERP.Models.Dto;
 using ArERP.Models.Entity;
 using ArERP.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace ArERP.Controllers;
 
 public class EmployeeApplicationController : Controller
 {
     private readonly IEmployeeApplicationRepository _employeeApplicationRepository;
+    private readonly IDerpartmentRepository _derpartmentRepository;
+    private readonly IEmployeeRepository _employeeRepository;
 
-    public EmployeeApplicationController(IEmployeeApplicationRepository employeeApplicationRepository)
+    public EmployeeApplicationController(
+        IEmployeeApplicationRepository employeeApplicationRepository,
+        IDerpartmentRepository derpartmentRepository,
+        IEmployeeRepository employeeRepository)
     {
         this._employeeApplicationRepository = employeeApplicationRepository;
+        this._derpartmentRepository = derpartmentRepository;
+        this._employeeRepository = employeeRepository;
     }
+
     
     // GET: EmployeeApplication/Index
     [HttpGet]
@@ -27,20 +35,30 @@ public class EmployeeApplicationController : Controller
     [HttpGet]
     public IActionResult Create()
     {
+        var departments = _derpartmentRepository.GetAllDepartments();
+        if (departments == null)
+        {
+            throw new Exception("Departments not found");
+        }
+
+        ViewBag.Departments = departments;
         return View();
     }
 
     // POST: EmployeeApplication/Create
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public IActionResult Create(EmployeeApplication employeeApplication)
     {
-        if (ModelState.IsValid)
-        {
+        // if (ModelState.IsValid)
+        // {
             _employeeApplicationRepository.AddEmployeeApplication(employeeApplication);
             return RedirectToAction(nameof(Index));
-        }
-        return View(employeeApplication);
+        // }
+
+        // ViewBag.Departments = _derpartmentRepository.GetAllDepartments();
+        //
+        // ViewData["ErrorMessage"] = "请检查输入项，有错误未通过验证。";
+        // return View(employeeApplication);
     }
 
     // GET: EmployeeApplication/Details/{id}
@@ -70,33 +88,38 @@ public class EmployeeApplicationController : Controller
     // POST: EmployeeApplication/Edit/{id}
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Edit([FromBody] EmployeeApplicationUpdateDto updateDto)
+    public IActionResult Edit(int id, EmployeeApplicationUpdateDto updateDto)
     {
         if (updateDto.Id == null)
         {
         return NotFound();
         }
-
-        if (ModelState.IsValid)
+        
+        var application = _employeeApplicationRepository.GetEmployeeApplicationById(updateDto.Id);
+        if (application == null)
         {
-            try
-            {
-                var existingApplication = _employeeApplicationRepository.GetEmployeeApplicationById(updateDto.Id);
-                if (existingApplication == null)
-                {
-                    return NotFound();
-                }
-                existingApplication.Status = updateDto.Status;
-                existingApplication.Approver = updateDto.Approver;
-                existingApplication.ApprovalNote = updateDto.ApprovalNote;
-                _employeeApplicationRepository.UpdateEmployeeApplication(existingApplication);
-            }
-            catch
-            {
-                throw;
-            }
-            return RedirectToAction(nameof(Index));
+            return NotFound();
         }
-        return BadRequest(ModelState);
+        application.Status = updateDto.Status;
+        application.Approver = updateDto.Approver;
+        application.ApprovalNote = updateDto.ApprovalNote;
+        _employeeApplicationRepository.UpdateEmployeeApplication(application);
+
+        if (updateDto.Status == ProcessStatus.Approved)
+        {
+            var newEmployee = new Employee
+            {
+                DepartmentId = application.DepartmentId,
+                EmployeeName = application.Name,
+                Gender = application.Gender,
+                BirthDate = application.DateOfBirth,
+                Email = application.Email,
+                Phone = application.Phone
+            };
+            
+            _employeeRepository.AddEmployee(newEmployee);
+        }
+        
+        return RedirectToAction(nameof(Index));
     }
 }

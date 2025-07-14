@@ -46,14 +46,12 @@ public class Employee
 
     [Display(Name = "职位")]
     [StringLength(100)]
-    public string Position { get; set; }
+    public string? Position { get; set; }
 
     [Display(Name = "薪资")]
     [Column(TypeName = "decimal(18,2)")]
     public decimal Salary { get; set; }
 
     public bool IsActive { get; set; } = true;
-
-    public Employee() { }
 }
 

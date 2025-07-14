@@ -8,6 +8,10 @@
 
 <h2>@ViewBag.Title</h2>
 
+<p>
+    <a asp-action="Create">添加入职申请</a>
+</p>
+
 <table class="table">
     <thead>
     <tr>
@@ -27,15 +31,15 @@
         <tr>
             <td>@app.Name</td>
             <td>@(app.Gender == "M" ? "男" : "女")</td>
-            <td>@app.DepartmentId</td>
+            <td>@app.Department.DepartmentName</td>
             <td>@app.Status.GetDisplayName()</td>
             <td>@app.ApplicationDate.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
             <td>@app.Approver</td>
             <td>@app.ApprovalDate?.ToString("yyyy-MM-dd HH:mm")</td>
             <td>
-                <a asp-action="Details" asp-route-id="@app.Id">查看</a>
+                <a asp-action="Details" asp-route-id="@app.Id">详细</a>
                 |
-                <a asp-action="Edit" asp-route-id="@app.Id">编辑</a>
+                <a asp-action="Edit" asp-route-id="@app.Id">审批</a>
             </td>
         </tr>
     }

@@ -25,7 +25,7 @@
         {
             <tr>
                 <td>@item.EmployeeName</td>
-                <td>@item.Gender</td>
+                <td>@(item.Gender == "M" ? "男" :"女")</td>
                 <td>@item.BirthDate</td>
                 <td>@Html.DisplayFor(modelItem => item.Email)</td>
                 <td>@item.Phone</td>

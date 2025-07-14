@@ -4,6 +4,7 @@ using ArERP.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArERP.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250714005201_UpdateApplicationDeparmentDisplay")]
+    partial class UpdateApplicationDeparmentDisplay
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,6 +89,7 @@ namespace ArERP.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Position")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -160,39 +164,6 @@ namespace ArERP.Migrations
                     b.ToTable("EmployeeApplications");
                 });
 
-            modelBuilder.Entity("ArERP.Models.Entity.EmployeeSeparation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ApprovalNote")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Approver")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("SeparationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SeparationReason")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("EmployeeSeparations");
-                });
-
             modelBuilder.Entity("ArERP.Models.Entity.User", b =>
                 {
                     b.Property<int>("Id")
@@ -240,17 +211,6 @@ namespace ArERP.Migrations
                         .IsRequired();
 
                     b.Navigation("Department");
-                });
-
-            modelBuilder.Entity("ArERP.Models.Entity.EmployeeSeparation", b =>
-                {
-                    b.HasOne("ArERP.Models.Entity.Employee", "EmployeeInfo")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("EmployeeInfo");
                 });
 #pragma warning restore 612, 618
         }

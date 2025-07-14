@@ -11,5 +11,6 @@ namespace ArERP.Repository
         public DbSet<Department> Departments { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeApplication> EmployeeApplications { get; set; }
+        public DbSet<EmployeeSeparation> EmployeeSeparations { get; set; }
     }
 }

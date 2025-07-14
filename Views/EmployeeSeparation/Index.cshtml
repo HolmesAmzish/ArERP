@@ -1,0 +1,43 @@
+@using ArERP.Helper
+@model IEnumerable<ArERP.Models.Entity.EmployeeSeparation>
+
+@{
+    ViewBag.Title = "员工离职申请列表";
+    Layout = "_Layout";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    <a asp-action="Create">添加离职申请</a>
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>姓名</th>
+        <th>状态</th>
+        <th>离职日期</th>
+        <th>离职原因</th>
+        <th>审批人</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var sep in Model)
+    {
+        <tr>
+            <td>@sep.EmployeeInfo.EmployeeName</td>
+            <td>@sep.Status.GetDisplayName()</td>
+            <td>@sep.SeparationDate.ToLocalTime().ToString("yyyy-MM-dd")</td>
+            <td>@sep.SeparationReason</td>
+            <td>@sep.Approver</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@sep.Id">详细</a>
+                |
+                <a asp-action="Edit" asp-route-id="@sep.Id">审批</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -144,6 +144,18 @@ public class SeedData
                 );
                 context.SaveChanges();
             }
+
+            if (!context.EmployeeSeparations.Any())
+            {
+                context.EmployeeSeparations.AddRange(
+                    new EmployeeSeparation
+                    {
+                        EmployeeId = 1,
+                        Status = ProcessStatus.Pending,
+                    }
+                );
+                context.SaveChanges();
+            }
         }
     }
 }
