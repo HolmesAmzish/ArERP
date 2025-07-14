@@ -13,6 +13,7 @@ builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IDerpartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IEmployeeApplicationRepository, EmployeeApplicationRepository>();
 builder.Services.AddScoped<IEmployeeSeparationRepository, EmployeeSeparationRepository>();
+builder.Services.AddScoped<IEvaluationRepository, EvaluationRepository>();
 builder.Services.AddControllersWithViews();
 
 builder.Services.Configure<JsonWebTokenConfig>(

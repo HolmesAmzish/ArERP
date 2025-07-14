@@ -4,6 +4,7 @@ using ArERP.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArERP.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250714055702_CreateEmployeeEvaluationTable")]
+    partial class CreateEmployeeEvaluationTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -160,6 +163,71 @@ namespace ArERP.Migrations
                     b.ToTable("EmployeeApplications");
                 });
 
+            modelBuilder.Entity("ArERP.Models.Entity.EmployeeEvaluation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DocumentNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("EvaluationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Operator")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Remarks")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmployeeEvaluations");
+                });
+
+            modelBuilder.Entity("ArERP.Models.Entity.EmployeeEvaluationDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DetailRemarks")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("EmployeeEvaluationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("PerformanceScore")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("QualityScore")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeEvaluationId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("EmployeeEvaluationDetail");
+                });
+
             modelBuilder.Entity("ArERP.Models.Entity.EmployeeSeparation", b =>
                 {
                     b.Property<int>("Id")
@@ -191,71 +259,6 @@ namespace ArERP.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("EmployeeSeparations");
-                });
-
-            modelBuilder.Entity("ArERP.Models.Entity.EvaluationDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("DetailRemarks")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EvaluationHeaderId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("PerformanceScore")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("QualityScore")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("EvaluationHeaderId");
-
-                    b.ToTable("EvaluationDetail");
-                });
-
-            modelBuilder.Entity("ArERP.Models.Entity.EvaluationHeader", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("DocumentNumber")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("EvaluationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Operator")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Remarks")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EvaluationHeader");
                 });
 
             modelBuilder.Entity("ArERP.Models.Entity.User", b =>
@@ -307,6 +310,25 @@ namespace ArERP.Migrations
                     b.Navigation("Department");
                 });
 
+            modelBuilder.Entity("ArERP.Models.Entity.EmployeeEvaluationDetail", b =>
+                {
+                    b.HasOne("ArERP.Models.Entity.EmployeeEvaluation", "EmployeeEvaluation")
+                        .WithMany("Details")
+                        .HasForeignKey("EmployeeEvaluationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ArERP.Models.Entity.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("EmployeeEvaluation");
+                });
+
             modelBuilder.Entity("ArERP.Models.Entity.EmployeeSeparation", b =>
                 {
                     b.HasOne("ArERP.Models.Entity.Employee", "EmployeeInfo")
@@ -318,26 +340,7 @@ namespace ArERP.Migrations
                     b.Navigation("EmployeeInfo");
                 });
 
-            modelBuilder.Entity("ArERP.Models.Entity.EvaluationDetail", b =>
-                {
-                    b.HasOne("ArERP.Models.Entity.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ArERP.Models.Entity.EvaluationHeader", "EvaluationHeader")
-                        .WithMany("Details")
-                        .HasForeignKey("EvaluationHeaderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-
-                    b.Navigation("EvaluationHeader");
-                });
-
-            modelBuilder.Entity("ArERP.Models.Entity.EvaluationHeader", b =>
+            modelBuilder.Entity("ArERP.Models.Entity.EmployeeEvaluation", b =>
                 {
                     b.Navigation("Details");
                 });

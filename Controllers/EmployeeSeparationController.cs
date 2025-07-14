@@ -90,6 +90,17 @@ public class EmployeeSeparationController : Controller
         existingSeparation.ApprovalNote = separation.ApprovalNote;
         _employeeSeparationRepository.UpdateEmployeeSeparation(existingSeparation);
 
+        if (separation.Status == ProcessStatus.Approved)
+        {
+            var employee = _employeeRepository.GetEmployeeById(separation.EmployeeId);
+            if (employee == null)
+            {
+                return NotFound("Employee not found");
+            }
+            employee.IsActive = false;
+            _employeeRepository.UpdateEmployee(employee);
+        }
+        
         return RedirectToAction(nameof(Index));
     }
 }

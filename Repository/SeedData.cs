@@ -150,7 +150,7 @@ public class SeedData
                 context.EmployeeSeparations.AddRange(
                     new EmployeeSeparation
                     {
-                        EmployeeId = 1,
+                        EmployeeId = 5,
                         Status = ProcessStatus.Pending,
                     }
                 );

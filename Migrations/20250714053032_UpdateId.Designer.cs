@@ -4,6 +4,7 @@ using ArERP.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArERP.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250714053032_UpdateId")]
+    partial class UpdateId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,71 +196,6 @@ namespace ArERP.Migrations
                     b.ToTable("EmployeeSeparations");
                 });
 
-            modelBuilder.Entity("ArERP.Models.Entity.EvaluationDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("DetailRemarks")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EvaluationHeaderId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("PerformanceScore")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("QualityScore")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("EvaluationHeaderId");
-
-                    b.ToTable("EvaluationDetail");
-                });
-
-            modelBuilder.Entity("ArERP.Models.Entity.EvaluationHeader", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("DocumentNumber")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("EvaluationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Operator")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Remarks")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EvaluationHeader");
-                });
-
             modelBuilder.Entity("ArERP.Models.Entity.User", b =>
                 {
                     b.Property<int>("Id")
@@ -316,30 +254,6 @@ namespace ArERP.Migrations
                         .IsRequired();
 
                     b.Navigation("EmployeeInfo");
-                });
-
-            modelBuilder.Entity("ArERP.Models.Entity.EvaluationDetail", b =>
-                {
-                    b.HasOne("ArERP.Models.Entity.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ArERP.Models.Entity.EvaluationHeader", "EvaluationHeader")
-                        .WithMany("Details")
-                        .HasForeignKey("EvaluationHeaderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-
-                    b.Navigation("EvaluationHeader");
-                });
-
-            modelBuilder.Entity("ArERP.Models.Entity.EvaluationHeader", b =>
-                {
-                    b.Navigation("Details");
                 });
 #pragma warning restore 612, 618
         }

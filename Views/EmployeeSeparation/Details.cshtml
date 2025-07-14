@@ -2,59 +2,75 @@
 @using ArERP.Helper
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "离职申请详情";
 }
 
-<h2>离职申请详情</h2>
+<h2 class="mb-4">离职申请详情</h2>
 
-<div>
-    <h4>员工离职申请信息</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EmployeeInfo.EmployeeName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EmployeeInfo.EmployeeName)
-        </dd>
+<div class="row">
+    <!-- 左侧：员工基本信息 -->
+    <div class="col-md-6">
+        <div class="card shadow-sm rounded p-3 mb-3">
+            <h4>员工信息</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-4">姓名</dt>
+                <dd class="col-sm-8">@Model.EmployeeInfo.EmployeeName</dd>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.SeparationDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Model.SeparationDate.ToString("yyyy-MM-dd")
-        </dd>
+                <dt class="col-sm-4">性别</dt>
+                <dd class="col-sm-8">@Model.EmployeeInfo.Gender</dd>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.SeparationReason)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.SeparationReason)
-        </dd>
+                <dt class="col-sm-4">出生日期</dt>
+                <dd class="col-sm-8">@Model.EmployeeInfo.BirthDate?.ToString("yyyy-MM-dd")</dd>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class="col-sm-10">
-            @Model.Status.GetDisplayName()
-        </dd>
+                <dt class="col-sm-4">邮箱</dt>
+                <dd class="col-sm-8">@Model.EmployeeInfo.Email</dd>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Approver)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Approver)
-        </dd>
+                <dt class="col-sm-4">手机</dt>
+                <dd class="col-sm-8">@Model.EmployeeInfo.Phone</dd>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ApprovalNote)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ApprovalNote)
-        </dd>
-    </dl>
+                <dt class="col-sm-4">职位</dt>
+                <dd class="col-sm-8">@Model.EmployeeInfo.Position</dd>
+
+                <dt class="col-sm-4">入职时间</dt>
+                <dd class="col-sm-8">@Model.EmployeeInfo.HireDate.ToString("yyyy-MM-dd")</dd>
+
+                <dt class="col-sm-4">薪资</dt>
+                <dd class="col-sm-8">￥@Model.EmployeeInfo.Salary.ToString("N2")</dd>
+
+                <dt class="col-sm-4">是否在职</dt>
+                <dd class="col-sm-8">@(Model.EmployeeInfo.IsActive ? "在职" : "离职")</dd>
+            </dl>
+        </div>
+    </div>
+
+    <!-- 右侧：离职申请信息 -->
+    <div class="col-md-6">
+        <div class="card shadow-sm rounded p-3 mb-3">
+            <h4>离职申请信息</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-4">离职日期</dt>
+                <dd class="col-sm-8">@Model.SeparationDate.ToString("yyyy-MM-dd")</dd>
+
+                <dt class="col-sm-4">离职原因</dt>
+                <dd class="col-sm-8">@Model.SeparationReason</dd>
+
+                <dt class="col-sm-4">状态</dt>
+                <dd class="col-sm-8">@Model.Status.GetDisplayName()</dd>
+
+                <dt class="col-sm-4">审批人</dt>
+                <dd class="col-sm-8">@Model.Approver</dd>
+
+                <dt class="col-sm-4">审批意见</dt>
+                <dd class="col-sm-8">@Model.ApprovalNote</dd>
+            </dl>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">编辑</a> |
-    <a asp-action="Index">返回列表</a>
+
+<!-- 返回与编辑 -->
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">编辑</a>
+    <a asp-action="Index" class="btn btn-secondary">返回列表</a>
 </div>
