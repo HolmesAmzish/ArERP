@@ -4,7 +4,7 @@
     ViewData["Title"] = "编辑考核记录";
 }
 
-<h1>编辑考核记录</h1>
+<h2>编辑考核记录</h2>
 
 <hr />
 <div class="row">
@@ -53,9 +53,11 @@
                     {
                         <tr>
                             <td>
-                                <select asp-for="Details[i].EmployeeId" asp-items="ViewBag.Employees" class="form-control">
-                                    <option value="">-- 选择员工 --</option>
+                                <input type="hidden" asp-for="Details[i].EmployeeId" />
+                                <select asp-for="Details[i].EmployeeId" class="form-control" disabled>
+                                    <option value="@Model.Details[i].EmployeeId">@Model.Details[i].Employee?.EmployeeName</option>
                                 </select>
+
                                 <span asp-validation-for="Details[i].EmployeeId" class="text-danger"></span>
                             </td>
                             <td>
@@ -77,9 +79,9 @@
                     }
                 </tbody>
             </table>
-            <button type="button" class="btn btn-primary" onclick="addDetail()">添加明细</button>
 
             <div class="form-group mt-3">
+                <button type="button" class="btn btn-primary" onclick="addDetail()">添加明细</button>
                 <input type="submit" value="保存" class="btn btn-primary" />
                 <a asp-action="Index" class="btn btn-secondary">返回列表</a>
             </div>

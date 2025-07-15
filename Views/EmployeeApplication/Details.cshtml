@@ -7,7 +7,8 @@
 
 <h2>入职申请详情</h2>
 
-<div>
+<div class="col-md-6">
+        <div class="card shadow-sm rounded p-3 mb-3">
     <h4>员工入职申请信息</h4>
     <hr />
     <dl class="row">
@@ -74,6 +75,7 @@
             @Model.ApplicationDate.ToString("yyyy-MM-dd HH:mm")
         </dd>
     </dl>
+    </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">编辑</a> |

@@ -5,17 +5,13 @@
 }
 
 <h2>详情</h2>
-
-<div>
+<div class="col-md-6">
+<div class="card shadow-sm rounded p-3 mb-3">
     <h4>员工信息</h4> 
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EmployeeName)
-        </dt>
-        <dd class="col-sm-10">  @* 添加 dd 标签，并显示值 *@
-            @Html.DisplayFor(model => model.EmployeeName)
-        </dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.EmployeeName)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.EmployeeName)</dd>
 
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Gender)
@@ -83,8 +79,9 @@
 
     </dl>
 </div>
+</div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">编辑</a> |
-    <a asp-action="Delete" asp-route-id="@Model?.Id">删除</a> |
+    @* <a asp-action="Delete" asp-route-id="@Model?.Id">删除</a> | *@
     <a asp-action="Index">返回列表</a>
 </div>

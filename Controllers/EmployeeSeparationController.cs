@@ -103,4 +103,26 @@ public class EmployeeSeparationController : Controller
         
         return RedirectToAction(nameof(Index));
     }
+
+    // GET: EmployeeSeparation/Statistics
+    [HttpGet]
+    public IActionResult Statistics()
+    {
+        ViewBag.Departments = _derpartmentRepository.GetAllDepartments();
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult GetStatistics(DateTime? startDate, DateTime? endDate, int? departmentId)
+    {
+        try
+        {
+            var stats = _employeeSeparationRepository.GetSeparationStatistics(startDate, endDate, departmentId);
+            return Json(stats);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }

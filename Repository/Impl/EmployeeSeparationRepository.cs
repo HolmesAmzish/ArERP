@@ -37,4 +37,30 @@ public class EmployeeSeparationRepository : IEmployeeSeparationRepository
         _context.EmployeeSeparations.Update(employeeSeparation);
         _context.SaveChanges();
     }
+
+    public List<SeparationStatistics> GetSeparationStatistics(DateTime? startDate, DateTime? endDate, int? departmentId)
+    {
+        var query = _context.EmployeeSeparations
+            .Include(e => e.EmployeeInfo)
+            .ThenInclude(e => e.Department)
+            .AsQueryable();
+
+        if (startDate.HasValue)
+            query = query.Where(s => s.SeparationDate >= startDate.Value);
+        
+        if (endDate.HasValue)
+            query = query.Where(s => s.SeparationDate <= endDate.Value);
+        
+        if (departmentId.HasValue)
+            query = query.Where(s => s.EmployeeInfo.DepartmentId == departmentId.Value);
+
+        return query
+            .GroupBy(s => s.EmployeeInfo.Department.DepartmentName)
+            .Select(g => new SeparationStatistics
+            {
+                DepartmentName = g.Key,
+                SeparationCount = g.Count()
+            })
+            .ToList();
+    }
 }

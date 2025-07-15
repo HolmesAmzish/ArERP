@@ -11,14 +11,14 @@ namespace ArERP.Controllers
     public class EvaluationController : Controller
     {
         private readonly IEvaluationRepository _evaluationRepository;
-        private readonly AppDbContext _context;
+        private readonly IEmployeeRepository _employeeRepository;
 
         public EvaluationController(
             IEvaluationRepository evaluationRepository,
-            AppDbContext context)
+            IEmployeeRepository employeeRepository)
         {
             _evaluationRepository = evaluationRepository;
-            _context = context;
+            _employeeRepository = employeeRepository;
         }
 
         public IActionResult Index(string employeeId, string name, string department)
@@ -35,6 +35,7 @@ namespace ArERP.Controllers
             return View(evaluations);
         }
 
+        // Get Evalution/Details/{id}
         public IActionResult Details(int id)
         {
             var evaluation = _evaluationRepository.GetEvaluationById(id);
@@ -45,29 +46,32 @@ namespace ArERP.Controllers
             return View(evaluation);
         }
 
+        // GET Evalution/Create
         public IActionResult Create()
         {
             var evaluation = new EvaluationHeader
             {
                 Details = new List<EvaluationDetail> { new EvaluationDetail() }
             };
+            
+            var employees = _employeeRepository
+                .GetAllEmployees()
+                .Where(e => e.IsActive == true)
+                .ToList();
 
-            ViewBag.Employees = new SelectList(_context.Employees
-                .Where(e => e.IsActive)
-                .Select(e => new { e.Id, e.EmployeeName }), 
-                "Id", "EmployeeName");
+            // Convert to SelectList
+            ViewBag.Employees = new SelectList(employees, "Id", "EmployeeName");
 
             return View(evaluation);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(EvaluationHeader header, List<EvaluationDetail> details)
+        public IActionResult Create(EvaluationHeader evaluation)
         {
             // if (ModelState.IsValid)
             // {
-                _evaluationRepository.AddHeader(evaluation);
-                _evaluationRepository.AddDetails(details);
+                _evaluationRepository.AddEvaluation(evaluation);
                 return RedirectToAction(nameof(Index));
             // }
             // return View(evaluation);
@@ -81,10 +85,12 @@ namespace ArERP.Controllers
                 return NotFound();
             }
 
-            ViewBag.Employees = new SelectList(_context.Employees
-                .Where(e => e.IsActive)
-                .Select(e => new { e.Id, e.EmployeeName }), 
-                "Id", "EmployeeName");
+            var employees = _employeeRepository
+                .GetAllEmployees()
+                .Where(e => e.IsActive==true)
+                .ToList();
+
+            ViewBag.Employees = new SelectList(employees, "Id", "EmployeeName");
 
             return View(evaluation);
         }
@@ -98,12 +104,12 @@ namespace ArERP.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
+            // if (ModelState.IsValid)
+            // {
                 _evaluationRepository.UpdateEvaluation(evaluation);
                 return RedirectToAction(nameof(Index));
-            }
-            return View(evaluation);
+            // }
+            // return View(evaluation);
         }
 
         public IActionResult Delete(int id)
