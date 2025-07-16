@@ -51,6 +51,7 @@ namespace ArERP.Controllers
         {
             var evaluation = new EvaluationHeader
             {
+                EvaluationDate = DateTime.Today,
                 Details = new List<EvaluationDetail> { new EvaluationDetail() }
             };
             

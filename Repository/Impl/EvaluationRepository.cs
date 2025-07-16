@@ -98,14 +98,14 @@ namespace ArERP.Repository.Impl
                 }
             }
 
-            var removedDetails = existing.Details
-                .Where(d => !updatedEvaluation.Details.Any(ed => ed.Id == d.Id))
-                .ToList();
-            
-            foreach (var removed in removedDetails)
-            {
-                _context.EvaluationDetail.Remove(removed);
-            }
+            // var removedDetails = existing.Details
+            //     .Where(d => !updatedEvaluation.Details.Any(ed => ed.Id == d.Id))
+            //     .ToList();
+            //
+            // foreach (var removed in removedDetails)
+            // {
+            //     _context.EvaluationDetail.Remove(removed);
+            // }
 
             _context.SaveChanges();
         }

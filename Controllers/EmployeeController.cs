@@ -55,9 +55,9 @@ public class EmployeeController : Controller
         return View(employee);
     }
     
-    // POST: /Employee/Edit/{id}// POST: /Employee/Edit/{id}
+    // POST: /Employee/Edit/{id}
     [HttpPost]
-    [ValidateAntiForgeryToken] // Good practice for POST methods
+    [ValidateAntiForgeryToken]
     public IActionResult Edit(
         int id,
         [Bind("Id,EmployeeName,Gender,BirthDate,Email,Phone,HireDate,Department,Position,Salary,IsActive")]
