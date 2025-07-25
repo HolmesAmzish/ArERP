@@ -1,39 +1,41 @@
 ﻿@model IEnumerable<ArERP.Areas.HumanResource.Models.Employee>
 
 @{
-    Layout = "_Layout";
+    Layout = "Panel";
 }
 
-<h2 class="text-2xl font-semibold mb-4">员工列表</h2>
+<div class="flex justify-between mb-4">
+    <h2 class="text-2xl">员工列表</h2>
+</div>
 
 <div class="overflow-x-auto">
-    <table class="min-w-full border-collapse border border-gray-300">
+    <table class="min-w-full">
         <thead>
             <tr class="bg-gray-100">
-                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">姓名</th>
-                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">性别</th>
-                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">出生日期</th>
-                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">邮箱</th>
-                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">电话</th>
-                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">部门</th>
-                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">职位</th>
-                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">是否在职</th>
-                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">操作</th>
+                <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">姓名</th>
+                <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">性别</th>
+                <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">出生日期</th>
+                <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">邮箱</th>
+                <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">电话</th>
+                <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">部门</th>
+                <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">职位</th>
+                <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">是否在职</th>
+                <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">操作</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
                 <tr class="hover:bg-gray-50">
-                    <td class="border border-gray-300 px-4 py-2">@item.EmployeeName</td>
-                    <td class="border border-gray-300 px-4 py-2">@(item.Gender == "M" ? "男" :"女")</td>
-                    <td class="border border-gray-300 px-4 py-2">@item.BirthDate</td>
-                    <td class="border border-gray-300 px-4 py-2">@item.Email</td>
-                    <td class="border border-gray-300 px-4 py-2">@item.Phone</td>
-                    <td class="border border-gray-300 px-4 py-2">@item.Department.DepartmentName</td>
-                    <td class="border border-gray-300 px-4 py-2">@item.Position</td>
-                    <td class="border border-gray-300 px-4 py-2">@item.IsActive</td>
-                    <td class="border border-gray-300 px-4 py-2">
+                    <td class="px-4 py-2">@item.EmployeeName</td>
+                    <td class="px-4 py-2">@(item.Gender == "M" ? "男" :"女")</td>
+                    <td class="px-4 py-2">@item.BirthDate</td>
+                    <td class="px-4 py-2">@item.Email</td>
+                    <td class="px-4 py-2">@item.Phone</td>
+                    <td class="px-4 py-2">@item.Department.DepartmentName</td>
+                    <td class="px-4 py-2">@item.Position</td>
+                    <td class="px-4 py-2">@item.IsActive</td>
+                    <td class="px-4 py-2">
                         <a asp-action="Details" asp-route-id="@item.Id" class="text-blue-600 hover:underline">详情</a>
                     </td>
                 </tr>

@@ -6,17 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Title"] ERP</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ArERP.styles.css" asp-append-version="true" />
-    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-white text-gray-900">
     <header>
         <nav class="border-b border-gray-200 bg-white shadow mb-6">
             <div class="container mx-auto px-4 flex flex-wrap items-center justify-between">
-                <a href="@Url.Action("Index", "Panel")" class="text-xl font-semibold text-gray-900 py-3">
-                    ERP
-                </a>
+                <div class="text-sm text-gray-500 my-4">
+                    <p><a href="/" class="text-2xl font-bold text-blue-500">ERP</a></p>
+                    @if (!string.IsNullOrEmpty(ViewContext.RouteData.Values["area"]?.ToString()))
+                    {
+                    <text> > @ViewContext.RouteData.Values["area"]</text>
+                    }
+                    @if (!string.IsNullOrEmpty(ViewContext.RouteData.Values["controller"]?.ToString()))
+                    {
+                    <text> &gt; @ViewContext.RouteData.Values["controller"]</text>
+                    }
+                    @if (!string.IsNullOrEmpty(ViewContext.RouteData.Values["action"]?.ToString()) &&
+                    ViewContext.RouteData.Values["action"]?.ToString()?.ToLower() != "index")
+                    {
+                    <text> &gt; @ViewContext.RouteData.Values["action"]</text>
+                    }
+                </div>
+
                 <button id="nav-toggle" class="block sm:hidden focus:outline-none">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
@@ -26,37 +38,38 @@
                 </button>
                 <div id="nav-content" class="hidden w-full sm:flex sm:items-center sm:w-auto">
                     <ul class="flex flex-col sm:flex-row sm:space-x-6 mt-3 sm:mt-0">
-                        <li><a href="@Url.Action("Index", "Department")"
-                                class="block py-2 px-3 text-gray-700 hover:text-blue-600">财务</a></li>
-                        <li><a href="@Url.Action("Index", "Employee")"
-                                class="block py-2 px-3 text-gray-700 hover:text-blue-600">购入</a></li>
-                        <li><a href="@Url.Action("Index", "EmployeeApplication")"
-                                class="block py-2 px-3 text-gray-700 hover:text-blue-600">销售</a></li>
-                        <li><a href="@Url.Action("Index", "EmployeeSeparation")"
-                                class="block py-2 px-3 text-gray-700 hover:text-blue-600">仓库</a></li>
-                        <li><a href="@Url.Action("Index", "Evaluation")"
-                                class="block py-2 px-3 text-gray-700 hover:text-blue-600">资产</a></li>
-                        <li><a href="@Url.Action("Index", "Panel", new { area = "HumanResource" })"
-                                class="block py-2 px-3 text-gray-700 hover:text-blue-600">人事</a></li>
-                        <li><a href="@Url.Action("Index", "Evaluation")"
-                                class="block py-2 px-3 text-gray-700 hover:text-blue-600">制造</a></li>
-                        <li><a href="@Url.Action("Index", "Evaluation")"
-                                class="block py-2 px-3 text-gray-700 hover:text-blue-600">Copilot</a></li>
-                        <li><a href="@Url.Action("Index", "Evaluation")"
-                                class="block py-2 px-3 text-gray-700 hover:text-blue-600">用户</a></li>
-                        <li><a href="@Url.Action("Index", "Evaluation")"
-                                class="block py-2 px-3 text-gray-700 hover:text-blue-600">系统</a></li>
+                        <li><a href="@Url.Action("Index", "Home", new {area="Finance"})"
+                                class="block py-2 px-3 text-blue-500 hover:text-blue-600">财务</a></li>
+                        <li><a href="@Url.Action("Index", "Home", new {area="Procuredure"})"
+                                class="block py-2 px-3 text-blue-500 hover:text-blue-600">购入</a></li>
+                        <li><a href="@Url.Action("Index", "Home", new {area="Sales"})"
+                                class="block py-2 px-3 text-blue-500 hover:text-blue-600">销售</a></li>
+                        <li><a href="@Url.Action("Index", "Home", new {area="Inventory"})"
+                                class="block py-2 px-3 text-blue-500 hover:text-blue-600">仓库</a></li>
+                        <li><a href="@Url.Action("Index", "Home", new {area="Asserts"})"
+                                class="block py-2 px-3 text-blue-500 hover:text-blue-600">资产</a></li>
+                        <li><a href="@Url.Action("Index", "Home", new {area="HumanResource"})"
+                                class="block py-2 px-3 text-blue-500 hover:text-blue-600">人事</a></li>
+                        <li><a href="@Url.Action("Index", "Home", new {area="Manufacture"})"
+                                class="block py-2 px-3 text-blue-500 hover:text-blue-600">制造</a></li>
+                        <li><a href="@Url.Action("Index", "Agent")"
+                                class="block py-2 px-3 text-blue-500 hover:text-blue-600">Copilot</a></li>
+                        <li><a href="@Url.Action("Index", "User")"
+                                class="block py-2 px-3 text-blue-500 hover:text-blue-600">用户</a></li>
+                        <li><a href="@Url.Action("Index", "System")"
+                                class="block py-2 px-3 text-blue-500 hover:text-blue-600">系统</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
 
-    <div class="container mx-auto px-4">
-        <main role="main" class="pb-6">
-            @RenderBody()
-        </main>
-    </div>
+<div class="container mx-auto px-4">
+    
+    <main role="main" class="pb-6">
+        @RenderBody()
+    </main>
+</div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

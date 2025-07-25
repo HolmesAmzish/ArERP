@@ -1,16 +1,16 @@
 @model ArERP.Areas.HumanResource.Models.Department
 
 @{
-    Layout = "_Layout";
+    Layout = "Panel";
 }
 
-<h2>添加部门</h2>
+<h2 class="text-2xl mb-4">添加部门</h2>
 
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <lable asp-for="DepartmentName"></lable>
-        <input asp-for="DepartmentName" class="form-control" />
-        <span asp-asp-validation-for="DepartmentName" class="text-danger"></span>
+<form class="flex justify-between" asp-action="Create" method="post">
+    <div>
+        <lable asp-for="DepartmentName">部门名称</lable>
+        <input asp-for="DepartmentName" class="border" />
+        <span asp-asp-validation-for="DepartmentName" class="text-red-500"></span>
     </div>
-    <button type="submit" class="btn btn-primary">确定</button>
+    <button type="submit" class="py-1 px-4 text-white bg-blue-500 hover:bg-blue-600 rounded">确定</button>
 </form>

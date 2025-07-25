@@ -14,6 +14,7 @@ public class DepartmentController : Controller
         this._derpartmentRepository = derpartmentRepository;
     }
 
+    // GET: /HumanResource/Department
     [HttpGet]
     public IActionResult Index()
     {
@@ -40,6 +41,7 @@ public class DepartmentController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    // GET: /HumanResource/Department/Details/{id}
     [HttpGet]
     public IActionResult Details(int id)
     {

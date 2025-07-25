@@ -1,6 +1,6 @@
 ﻿using ArERP.Areas.HumanResource.Models;
+using ArERP.Areas.Inventory.Models;
 using ArERP.Models.Entity;
-using ArERP.Models.Entity.Inventory;
 using Microsoft.EntityFrameworkCore;
 
 namespace ArERP.Repository;
@@ -26,7 +26,7 @@ public class AppDbContext : DbContext
     public DbSet<Item> Items { get; set; }
     public DbSet<Warehouse> Warehouses { get; set; }
     public DbSet<InventoryBalance> InventoryBalances { get; set; }
-    public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
+    public DbSet<Transaction> InventoryTransactions { get; set; }
     public DbSet<TransactionLine> TransactionLines { get; set; }
 }
 
