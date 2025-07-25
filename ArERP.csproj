@@ -17,11 +17,38 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.60.0" />
+    <PackageReference Include="Microsoft.SemanticKernel.Abstractions" Version="1.60.0" />
+    <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.60.0" />
+    <PackageReference Include="Microsoft.SemanticKernel.Core" Version="1.60.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\Dto\" />
     <Folder Include="Services\" />
+    <Folder Include="Views\Inventory\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Areas\HumanResource\Evaluation\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\HumanResource\Evaluation\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\HumanResource\Evaluation\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\HumanResource\Evaluation\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\HumanResource\Evaluation\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\HumanResource\EmployeeSeparation\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\HumanResource\EmployeeSeparation\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\HumanResource\EmployeeSeparation\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\HumanResource\EmployeeSeparation\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\HumanResource\EmployeeSeparation\Statistics.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\HumanResource\EmployeeApplication\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\HumanResource\EmployeeApplication\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\HumanResource\EmployeeApplication\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\HumanResource\EmployeeApplication\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\HumanResource\Employee\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\HumanResource\Employee\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\HumanResource\Employee\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\HumanResource\Employee\Index.cshtml" />
   </ItemGroup>
 
 </Project>

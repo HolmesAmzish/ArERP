@@ -1,0 +1,78 @@
+@model ArERP.Areas.HumanResource.Models.EmployeeSeparation
+@using ArERP.Helper
+
+@{
+    ViewData["Title"] = "离职申请详情";
+}
+
+<h2 class="mb-4">离职申请详情</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!-- 左侧：员工基本信息 -->
+    <div>
+        <div class="bg-white rounded-lg shadow-sm p-4 mb-4">
+            <h4>员工信息</h4>
+            <hr />
+            <dl class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <dt class="font-medium text-gray-500">姓名</dt>
+                <dd class="text-gray-900">@Model.EmployeeInfo.EmployeeName</dd>
+
+                <dt class="font-medium text-gray-500">性别</dt>
+                <dd class="text-gray-900">@Model.EmployeeInfo.Gender</dd>
+
+                <dt class="font-medium text-gray-500">出生日期</dt>
+                <dd class="text-gray-900">@Model.EmployeeInfo.BirthDate?.ToString("yyyy-MM-dd")</dd>
+
+                <dt class="font-medium text-gray-500">邮箱</dt>
+                <dd class="text-gray-900">@Model.EmployeeInfo.Email</dd>
+
+                <dt class="font-medium text-gray-500">手机</dt>
+                <dd class="text-gray-900">@Model.EmployeeInfo.Phone</dd>
+
+                <dt class="font-medium text-gray-500">职位</dt>
+                <dd class="text-gray-900">@Model.EmployeeInfo.Position</dd>
+
+                <dt class="font-medium text-gray-500">入职时间</dt>
+                <dd class="text-gray-900">@Model.EmployeeInfo.HireDate.ToString("yyyy-MM-dd")</dd>
+
+                <dt class="font-medium text-gray-500">薪资</dt>
+                <dd class="text-gray-900">￥@Model.EmployeeInfo.Salary.ToString("N2")</dd>
+
+                <dt class="font-medium text-gray-500">是否在职</dt>
+                <dd class="text-gray-900">@(Model.EmployeeInfo.IsActive ? "在职" : "离职")</dd>
+            </dl>
+        </div>
+    </div>
+
+    <!-- 右侧：离职申请信息 -->
+    <div>
+        <div class="bg-white rounded-lg shadow-sm p-4 mb-4">
+            <h4>离职申请信息</h4>
+            <hr />
+            <dl class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <dt class="font-medium text-gray-500">离职日期</dt>
+                <dd class="text-gray-900">@Model.SeparationDate.ToString("yyyy-MM-dd")</dd>
+
+                <dt class="font-medium text-gray-500">离职原因</dt>
+                <dd class="text-gray-900">@Model.SeparationReason</dd>
+
+                <dt class="font-medium text-gray-500">状态</dt>
+                <dd class="text-gray-900">@Model.Status.GetDisplayName()</dd>
+
+                <dt class="font-medium text-gray-500">审批人</dt>
+                <dd class="text-gray-900">@Model.Approver</dd>
+
+                <dt class="font-medium text-gray-500">审批意见</dt>
+                <dd class="text-gray-900">@Model.ApprovalNote</dd>
+            </dl>
+        </div>
+    </div>
+</div>
+
+<!-- 返回与编辑 -->
+<div class="flex space-x-2 mt-4">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" 
+       class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">编辑</a>
+    <a asp-action="Index" 
+       class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition">返回列表</a>
+</div>

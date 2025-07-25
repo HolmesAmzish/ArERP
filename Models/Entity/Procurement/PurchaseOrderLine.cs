@@ -9,7 +9,7 @@ public class PurchaseOrderLine
     public PurchaseOrder PurchaseOrder { get; set; }
 
     public int MaterialId { get; set; }
-    public Material Material { get; set; }
+    public Item Material { get; set; }
 
     public int Quantity { get; set; }
     public decimal UnitPrice { get; set; }

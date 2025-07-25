@@ -1,18 +1,32 @@
-﻿using ArERP.Models.Entity;
+﻿using ArERP.Areas.HumanResource.Models;
+using ArERP.Models.Entity;
+using ArERP.Models.Entity.Inventory;
 using Microsoft.EntityFrameworkCore;
 
-namespace ArERP.Repository
+namespace ArERP.Repository;
+/**
+ * AppDbContext
+ */
+public class AppDbContext : DbContext
 {
-    public class AppDbContext : DbContext
-    {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Department> Departments { get; set; }
-        public DbSet<Employee> Employees { get; set; }
-        public DbSet<EmployeeApplication> EmployeeApplications { get; set; }
-        public DbSet<EmployeeSeparation> EmployeeSeparations { get; set; }
-        public DbSet<EvaluationHeader> EvaluationHeader { get; set; }
-        public DbSet<EvaluationDetail> EvaluationDetail { get; set; }
-    }
+    // System
+    public DbSet<User> Users { get; set; }
+    
+    // Human Resource
+    public DbSet<Department> Departments { get; set; }
+    public DbSet<Employee> Employees { get; set; }
+    public DbSet<EmployeeApplication> EmployeeApplications { get; set; }
+    public DbSet<EmployeeSeparation> EmployeeSeparations { get; set; }
+    public DbSet<EvaluationHeader> EvaluationHeader { get; set; }
+    public DbSet<EvaluationDetail> EvaluationDetail { get; set; }
+    
+    // Inventory
+    public DbSet<Item> Items { get; set; }
+    public DbSet<Warehouse> Warehouses { get; set; }
+    public DbSet<InventoryBalance> InventoryBalances { get; set; }
+    public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
+    public DbSet<TransactionLine> TransactionLines { get; set; }
 }
+

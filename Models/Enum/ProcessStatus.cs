@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ArERP.Models;
+namespace ArERP.Models.Enum;
 
 public enum ProcessStatus
 {

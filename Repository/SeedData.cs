@@ -1,9 +1,8 @@
-using ArERP.Models.Entity;
-using ArERP.Repository;
-using Microsoft.AspNetCore.Connections;
+using ArERP.Areas.HumanResource.Models;
+using ArERP.Models.Enum;
 using Microsoft.EntityFrameworkCore;
 
-namespace ArERP.Models;
+namespace ArERP.Repository;
 
 public class SeedData
 {

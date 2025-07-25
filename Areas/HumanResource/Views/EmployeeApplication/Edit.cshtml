@@ -1,0 +1,86 @@
+@model ArERP.Areas.HumanResource.Models.EmployeeApplication
+
+@{
+    ViewData["Title"] = "入职申请审批";
+    Layout = "_Layout";
+}
+
+<h2 class="mb-4">入职申请审批</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!-- 左侧：申请人信息 -->
+    <div>
+        <div class="bg-white rounded-lg shadow-sm p-4 mb-4">
+            <h4>申请人信息</h4>
+            <hr />
+            <dl class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <dt class="font-medium text-gray-500">姓名</dt>
+                <dd class="text-gray-900">@Model.Name</dd>
+
+                <dt class="font-medium text-gray-500">性别</dt>
+                <dd class="text-gray-900">@(Model.Gender == "M" ? "男" : "女")</dd>
+
+                <dt class="font-medium text-gray-500">出生日期</dt>
+                <dd class="text-gray-900">@Model.DateOfBirth.ToString("yyyy-MM-dd")</dd>
+
+                <dt class="font-medium text-gray-500">身份证号</dt>
+                <dd class="text-gray-900">@Model.NationalId</dd>
+
+                <dt class="font-medium text-gray-500">手机号</dt>
+                <dd class="text-gray-900">@Model.Phone</dd>
+
+                <dt class="font-medium text-gray-500">邮箱</dt>
+                <dd class="text-gray-900">@Model.Email</dd>
+
+                <dt class="font-medium text-gray-500">部门</dt>
+                <dd class="text-gray-900">@Model.DepartmentId</dd> <!-- 如有部门名称可替换 -->
+
+                <dt class="font-medium text-gray-500">申请时间</dt>
+                <dd class="text-gray-900">@Model.ApplicationDate.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</dd>
+            </dl>
+        </div>
+    </div>
+
+    <!-- 右侧：审批操作 -->
+    <div>
+        <div class="bg-white rounded-lg shadow-sm p-4 mb-4">
+            <h4>审批操作</h4>
+            <hr />
+            <form asp-action="Edit">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="Deleted" />
+
+                <div class="mb-4">
+                    <label asp-for="Status" class="block text-sm font-medium text-gray-700 mb-1">审批状态</label>
+                    <select asp-for="Status" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option value="Pending">待处理</option>
+                        <option value="Approved">批准</option>
+                        <option value="Rejected">拒绝</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Approver" class="block text-sm font-medium text-gray-700 mb-1">审批人</label>
+                    <input asp-for="Approver" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
+                    <span asp-validation-for="Approver" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="ApprovalNote" class="block text-sm font-medium text-gray-700 mb-1">审批意见</label>
+                    <textarea asp-for="ApprovalNote" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
+                    <span asp-validation-for="ApprovalNote" class="text-danger"></span>
+                </div>
+
+                <div class="flex space-x-2 mt-4">
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">提交审批</button>
+                    <a asp-action="Index" class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition">返回列表</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

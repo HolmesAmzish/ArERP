@@ -258,6 +258,146 @@ namespace ArERP.Migrations
                     b.ToTable("EvaluationHeader");
                 });
 
+            modelBuilder.Entity("ArERP.Models.Entity.Inventory.InventoryBalance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LocationCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("WarehouseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("InventoryBalances");
+                });
+
+            modelBuilder.Entity("ArERP.Models.Entity.Inventory.InventoryTransaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InventoryTransactions");
+                });
+
+            modelBuilder.Entity("ArERP.Models.Entity.Inventory.Item", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("type")
+                        .HasColumnType("int");
+
+                    b.Property<string>("unit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("ArERP.Models.Entity.Inventory.TransactionLine", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("TransactionId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("WarehouseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("TransactionId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("TransactionLines");
+                });
+
+            modelBuilder.Entity("ArERP.Models.Entity.Inventory.Warehouse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("CurrentCapacity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("MaxCapacity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Warehouses");
+                });
+
             modelBuilder.Entity("ArERP.Models.Entity.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -365,6 +505,50 @@ namespace ArERP.Migrations
                     b.Navigation("EvaluationHeader");
                 });
 
+            modelBuilder.Entity("ArERP.Models.Entity.Inventory.InventoryBalance", b =>
+                {
+                    b.HasOne("ArERP.Models.Entity.Inventory.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ArERP.Models.Entity.Inventory.Warehouse", "Warehouse")
+                        .WithMany()
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("ArERP.Models.Entity.Inventory.TransactionLine", b =>
+                {
+                    b.HasOne("ArERP.Models.Entity.Inventory.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ArERP.Models.Entity.Inventory.InventoryTransaction", "Transaction")
+                        .WithMany("Lines")
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ArERP.Models.Entity.Inventory.Warehouse", "Warehouse")
+                        .WithMany()
+                        .HasForeignKey("WarehouseId");
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Transaction");
+
+                    b.Navigation("Warehouse");
+                });
+
             modelBuilder.Entity("ArERP.Models.Entity.User", b =>
                 {
                     b.HasOne("ArERP.Models.Entity.Role", "Role")
@@ -379,6 +563,11 @@ namespace ArERP.Migrations
             modelBuilder.Entity("ArERP.Models.Entity.EvaluationHeader", b =>
                 {
                     b.Navigation("Details");
+                });
+
+            modelBuilder.Entity("ArERP.Models.Entity.Inventory.InventoryTransaction", b =>
+                {
+                    b.Navigation("Lines");
                 });
 
             modelBuilder.Entity("ArERP.Models.Entity.Role", b =>

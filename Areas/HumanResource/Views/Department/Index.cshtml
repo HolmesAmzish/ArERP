@@ -1,0 +1,36 @@
+@model IEnumerable<ArERP.Areas.HumanResource.Models.Department>
+
+@{
+    Layout = "_Layout";
+}
+<div class="flex justify-between mb-4">
+    <h2 class="text-2xl font-semibold mb-4">部门列表</h2>
+    <a asp-action="Create"
+        class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">添加部门</a>
+</div>
+
+<div class="overflow-x-auto">
+    <table class="min-w-full border-collapse border border-gray-300">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">部门编号</th>
+                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">部门名称</th>
+                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">创建日期</th>
+                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="hover:bg-gray-50">
+                    <td class="border border-gray-300 px-4 py-2">@item.Id</td>
+                    <td class="border border-gray-300 px-4 py-2">@item.DepartmentName</td>
+                    <td class="border border-gray-300 px-4 py-2">@item.CreationDate.ToString("yyyy-MM-dd")</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="text-blue-600 hover:underline">详情</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

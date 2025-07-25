@@ -1,0 +1,48 @@
+@using ArERP.Helper
+@model IEnumerable<ArERP.Areas.HumanResource.Models.EmployeeApplication>
+
+@{
+    ViewBag.Title = "员工入职申请列表";
+    Layout = "_Layout";
+}
+
+<h2 class="text-2xl font-semibold mb-4">@ViewBag.Title</h2>
+
+<div class="mb-4">
+    <a asp-action="Create" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">添加入职申请</a>
+</div>
+
+<div class="overflow-x-auto">
+    <table class="min-w-full border-collapse border border-gray-300">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">姓名</th>
+                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">性别</th>
+                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">申请部门</th>
+                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">状态</th>
+                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">申请时间</th>
+                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">审批人</th>
+                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">审批时间</th>
+                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var app in Model)
+            {
+                <tr class="hover:bg-gray-50">
+                    <td class="border border-gray-300 px-4 py-2">@app.Name</td>
+                    <td class="border border-gray-300 px-4 py-2">@(app.Gender == "M" ? "男" : "女")</td>
+                    <td class="border border-gray-300 px-4 py-2">@app.Department.DepartmentName</td>
+                    <td class="border border-gray-300 px-4 py-2">@app.Status.GetDisplayName()</td>
+                    <td class="border border-gray-300 px-4 py-2">@app.ApplicationDate.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
+                    <td class="border border-gray-300 px-4 py-2">@app.Approver</td>
+                    <td class="border border-gray-300 px-4 py-2">@app.ApprovalDate?.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <a asp-action="Details" asp-route-id="@app.Id" class="text-blue-600 hover:underline mr-2">详细</a>
+                        <a asp-action="Edit" asp-route-id="@app.Id" class="text-blue-600 hover:underline">审批</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

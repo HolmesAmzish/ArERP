@@ -1,3 +1,5 @@
+using ArERP.Models.Enum;
+
 namespace ArERP.Models.Entity.Production;
 
 public class Machine
