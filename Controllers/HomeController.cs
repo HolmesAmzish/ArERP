@@ -1,20 +1,26 @@
 using ArERP.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using ArERP.Service;
 
 namespace ArERP.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IDashboardService _dashboardService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IDashboardService dashboardService)
         {
-            _logger = logger;
+            this._logger = logger;
+            this._dashboardService = dashboardService;
         }
 
+        // GET: /Home/Index
         public IActionResult Index()
         {
+            ViewBag.shiftStats = _dashboardService.GetEmployeeShiftStats();
+            ViewBag.workshopStats = _dashboardService.GetWorkshopStats();
             return View();
         }
 

@@ -12,16 +12,22 @@ public class TransactionRepository : ITransactionRepository
         this._context = context;
     }
 
-    public List<Transaction> GetAllTransactions() => _context.Transactions.ToList();
-    public Transaction? GetTransactionById(int id) => _context.Transactions.FirstOrDefault(t => t.Id == id);
+    public List<Transaction> GetAllTransactions() =>
+        _context.Transactions
+            .ToList();
+    public Transaction? GetTransactionById(int id) =>
+        _context.Transactions
+            .FirstOrDefault(t => t.Id == id);
 
     public void AddTransaction(Transaction transaction)
     {
         _context.Transactions.Add(transaction);
+        _context.SaveChanges();
     }
 
     public void RemoveTransaction(Transaction transaction)
     {
         _context.Transactions.Remove(transaction);
+        _context.SaveChanges();
     }
 }

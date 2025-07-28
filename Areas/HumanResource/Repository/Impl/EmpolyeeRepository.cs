@@ -2,7 +2,7 @@
 using ArERP.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace ArERP.Areas.HumanResource.Repositories.Impl;
+namespace ArERP.Areas.HumanResource.Repository.Impl;
 
 public class EmployeeRepository : IEmployeeRepository
 {
@@ -12,12 +12,10 @@ public class EmployeeRepository : IEmployeeRepository
         _context = context;
     }
 
-    public List<Employee> GetAllEmployees()
-    {
-        return _context.Employees
+    public List<Employee> GetAllEmployees() =>
+        _context.Employees
             .Include(e => e.Department)
             .ToList();
-    }
 
     public void AddEmployee(Employee employee)
     {
@@ -25,10 +23,9 @@ public class EmployeeRepository : IEmployeeRepository
         _context.SaveChanges();
     }
 
-    public Employee GetEmployeeById(int id)
-    {
-        return _context.Employees.FirstOrDefault(m => m.Id == id);
-    }
+    public Employee? GetEmployeeById(int id) => 
+        _context.Employees
+            .FirstOrDefault(m => m.Id == id);
 
     public void UpdateEmployee(Employee employee)
     {

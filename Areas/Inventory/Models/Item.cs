@@ -5,11 +5,12 @@ namespace ArERP.Areas.Inventory.Models;
 
 public class Item
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [Key] [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get;set; }
+    
     [Display(Name="代号")]
     public string Code { get; set; }
+    
     public string Name { get; set; }
     
     [Display(Name="物品类型")]
@@ -18,7 +19,6 @@ public class Item
     [Display(Name="单位")]
     public string Unit { get; set; }
     
-    [Display(Name="创建日期")]
-    [DataType(DataType.Date)]
+    [Display(Name="创建日期")] [DataType(DataType.Date)]
     public DateTime CreateDate { get; set; } = DateTime.Now;
 }

@@ -57,7 +57,7 @@ public class InventorySeedData
             {
                 return;
             }
-
+            
             context.Items.AddRange(
                 new Item
                 {
@@ -98,9 +98,75 @@ public class InventorySeedData
                     Type = ItemType.Material,
                     Unit = "千克",
                     CreateDate = DateTime.Now
+                },
+                new Item
+                {
+                    Code = "MAT-003",
+                    Name = "铜线",
+                    Type = ItemType.Material,
+                    Unit = "米",
+                    CreateDate = DateTime.Now.AddDays(-18)
+                },
+                new Item
+                {
+                    Code = "SEM-002",
+                    Name = "电机轴",
+                    Type = ItemType.SemiProduct,
+                    Unit = "个",
+                    CreateDate = DateTime.Now.AddDays(-12)
+                },
+                new Item
+                {
+                    Code = "FIN-002",
+                    Name = "控制面板",
+                    Type = ItemType.FinishedProduct,
+                    Unit = "台",
+                    CreateDate = DateTime.Now.AddDays(-7)
+                },
+                new Item
+                {
+                    Code = "CON-002",
+                    Name = "润滑油",
+                    Type = ItemType.Consumable,
+                    Unit = "升",
+                    CreateDate = DateTime.Now.AddDays(-3)
+                },
+                new Item
+                {
+                    Code = "MAT-004",
+                    Name = "铝材",
+                    Type = ItemType.Material,
+                    Unit = "吨",
+                    CreateDate = DateTime.Now.AddDays(-2)
+                },
+                new Item
+                {
+                    Code = "SEM-003",
+                    Name = "塑料外壳",
+                    Type = ItemType.SemiProduct,
+                    Unit = "个",
+                    CreateDate = DateTime.Now.AddDays(-9)
+                },
+                new Item
+                {
+                    Code = "FIN-003",
+                    Name = "电动工具",
+                    Type = ItemType.FinishedProduct,
+                    Unit = "台",
+                    CreateDate = DateTime.Now.AddDays(-1)
+                },
+                new Item
+                {
+                    Code = "CON-003",
+                    Name = "胶带",
+                    Type = ItemType.Consumable,
+                    Unit = "卷",
+                    CreateDate = DateTime.Now
                 }
             );
+            
             context.SaveChanges();
+            
             #endregion
             
             #region Inventory Balance seed data
@@ -116,25 +182,25 @@ public class InventorySeedData
                 {
                     ItemId = 1,  // 钢材
                     WarehouseId = 1,  // 主仓库
-                    Quantity = 12.5
+                    Quantity = 12.5m
                 },
                 new InventoryBalance
                 {
                     ItemId = 2,  // 电机壳体
                     WarehouseId = 1,  // 主仓库
-                    Quantity = 400
+                    Quantity = 400m
                 },
                 new InventoryBalance
                 {
                     ItemId = 3,  // 组装电机
                     WarehouseId = 1,  // 主仓库
-                    Quantity = 85
+                    Quantity = 85m
                 },
                 new InventoryBalance
                 {
                     ItemId = 4,  // 焊锡丝
                     WarehouseId = 1,  // 主仓库
-                    Quantity = 32
+                    Quantity = 32m
                 },
     
                 // 南区仓库的库存
@@ -142,19 +208,19 @@ public class InventorySeedData
                 {
                     ItemId = 1,  // 钢材
                     WarehouseId = 2,  // 南区仓库
-                    Quantity = 8.2
+                    Quantity = 8.2m
                 },
                 new InventoryBalance
                 {
                     ItemId = 3,  // 组装电机
                     WarehouseId = 2,  // 南区仓库
-                    Quantity = 120
+                    Quantity = 120m
                 },
                 new InventoryBalance
                 {
                     ItemId = 5,  // 塑料粒子
                     WarehouseId = 2,  // 南区仓库
-                    Quantity = 560
+                    Quantity = 560m
                 },
     
                 // 北区仓库的库存
@@ -162,19 +228,19 @@ public class InventorySeedData
                 {
                     ItemId = 2,  // 电机壳体
                     WarehouseId = 3,  // 北区仓库
-                    Quantity = 250
+                    Quantity = 250m
                 },
                 new InventoryBalance
                 {
                     ItemId = 4,  // 焊锡丝
                     WarehouseId = 3,  // 北区仓库
-                    Quantity = 45
+                    Quantity = 45m
                 },
                 new InventoryBalance
                 {
                     ItemId = 5,  // 塑料粒子
                     WarehouseId = 3,  // 北区仓库
-                    Quantity = 320
+                    Quantity = 320m
                 },
     
                 // 海外仓库的库存
@@ -182,7 +248,7 @@ public class InventorySeedData
                 {
                     ItemId = 3,  // 组装电机
                     WarehouseId = 4,  // 海外仓库
-                    Quantity = 200
+                    Quantity = 200m
                 },
     
                 // 备件仓库的库存
@@ -190,13 +256,13 @@ public class InventorySeedData
                 {
                     ItemId = 4,  // 焊锡丝
                     WarehouseId = 5,  // 备件仓库
-                    Quantity = 18
+                    Quantity = 18m
                 },
                 new InventoryBalance
                 {
                     ItemId = 5,  // 塑料粒子
                     WarehouseId = 5,  // 备件仓库
-                    Quantity = 150
+                    Quantity = 150m
                 }
             );
 

@@ -1,0 +1,46 @@
+@{
+    ViewData["Title"] = "管理";
+    Layout = "_Layout";
+}
+
+<div class="flex min-h-screen">
+    <nav class="w-64 bg-gray-50 p-6 border-r border-gray-200">
+        <a href="@Url.Action("Index", "Home")" class="text-2xl mb-6">生产管理</a>
+        <ul class="space-y-2 text-lg mt-6">
+            <li>
+                <a href="@Url.Action("Index", "Workshop")"
+                   class="block py-2 hover:bg-gray-200 transition">
+                    车间管理
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "Bom")"
+                   class="block py-2 hover:bg-gray-200 transition">
+                    材料单
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "ProcessOperation")"
+                   class="block py-2 hover:bg-gray-200 transition">
+                    工序管理
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "ProcessRoute")"
+                   class="block py-2 hover:bg-gray-200 transition">
+                    工艺流程
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "WorkOrder")"
+                   class="block py-2 hover:bg-gray-200 transition">
+                    工单管理
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <section class="flex-1 p-6">
+        @RenderBody()
+    </section>
+</div>

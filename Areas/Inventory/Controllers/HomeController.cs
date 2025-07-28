@@ -7,16 +7,5 @@ namespace ArERP.Areas.Inventory.Controllers;
 [Area("Inventory")]
 public class HomeController : Controller
 {
-    private readonly IInventoryBalanceService _inventoryBalanceService;
-
-    public HomeController(IInventoryBalanceService inventoryBalanceService)
-    {
-        this._inventoryBalanceService = inventoryBalanceService;
-    }
-    
-    public IActionResult Index()
-    {
-        var inventoryBalances = _inventoryBalanceService.GetAllInventoryBalances();
-        return View(inventoryBalances);
-    }
+    public IActionResult Index() => View();
 }

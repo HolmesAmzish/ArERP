@@ -18,15 +18,13 @@ public class EvaluationDetail
     [ForeignKey("EmployeeId")]
     public Employee Employee { get; set; }
 
-    [Required]
-    [Range(0, 100)]
+    [Required] [Range(0, 100)] [Column(TypeName = "decimal(18,2)")]
     public decimal PerformanceScore { get; set; }
 
-    [Required]
-    [Range(0, 100)]
+    [Required] [Range(0, 100)] [Column(TypeName = "decimal(18,2)")]
     public decimal QualityScore { get; set; }
 
-    [NotMapped]
+    [NotMapped] [Column(TypeName = "decimal(18,2)")]
     public decimal TotalScore => PerformanceScore + QualityScore;
 
     [StringLength(200)]

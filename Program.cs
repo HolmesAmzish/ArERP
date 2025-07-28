@@ -17,6 +17,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     HrSeedData.Initialize(services);
     InventorySeedData.Initialize(services);
+    ProductionSeedData.Initialize(services);
 }
 
 app.UseStaticFiles();

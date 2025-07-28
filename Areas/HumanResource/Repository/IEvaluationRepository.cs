@@ -1,6 +1,6 @@
 using ArERP.Areas.HumanResource.Models;
 
-namespace ArERP.Areas.HumanResource.Repositories;
+namespace ArERP.Areas.HumanResource.Repository;
 
 public interface IEvaluationRepository
 {

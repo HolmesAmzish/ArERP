@@ -25,10 +25,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Finance\" />
-    <Folder Include="Areas\Procurement\" />
-    <Folder Include="Areas\Production\Controllers\" />
-    <Folder Include="Areas\Sales\" />
+    <Folder Include="Areas\Finance\Controller\" />
+    <Folder Include="Areas\Finance\Repository\Impl\" />
+    <Folder Include="Areas\Procurement\Controller\Impl\" />
+    <Folder Include="Areas\Procurement\Repository\" />
+    <Folder Include="Areas\Production\Service\Impl\" />
+    <Folder Include="Areas\Sales\Controller\" />
+    <Folder Include="Areas\Sales\Repository\Impl\" />
+    <Folder Include="Models\Enum\" />
     <Folder Include="Views\Inventory\" />
   </ItemGroup>
 

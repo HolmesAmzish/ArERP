@@ -18,30 +18,11 @@ public class HrSeedData
             }
 
             context.Departments.AddRange(
-                new Department
-                {
-                    DepartmentName = "人力资源部",
-                    CreationDate = DateTime.Parse("2021-01-01"),
-                    Deleted = false
-                },
-                new Department
-                {
-                    DepartmentName = "研发部",
-                    CreationDate = DateTime.Parse("2020-03-15"),
-                    Deleted = false
-                },
-                new Department
-                {
-                    DepartmentName = "财务部",
-                    CreationDate = DateTime.Parse("2022-06-01"),
-                    Deleted = false
-                },
-                new Department
-                {
-                    DepartmentName = "市场部",
-                    CreationDate = DateTime.Parse("2021-11-20"),
-                    Deleted = false
-                }
+                new Department { DepartmentName = "人力资源部", CreationDate = DateTime.Parse("2021-01-01"), Deleted = false },
+                new Department { DepartmentName = "研发部", CreationDate = DateTime.Parse("2020-03-15"), Deleted = false },
+                new Department { DepartmentName = "财务部", CreationDate = DateTime.Parse("2022-06-01"), Deleted = false },
+                new Department { DepartmentName = "市场部", CreationDate = DateTime.Parse("2021-11-20"), Deleted = false },
+                new Department { DepartmentName = "市场部", CreationDate = DateTime.Parse("2021-11-20"), Deleted = false }
             );
             context.SaveChanges();
 

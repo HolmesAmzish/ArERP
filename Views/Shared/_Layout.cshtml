@@ -5,7 +5,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Title"] ERP</title>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 
 <body class="bg-white text-gray-900">
@@ -50,7 +49,7 @@
                                 class="block py-2 px-3 text-blue-500 hover:text-blue-600">资产</a></li>
                         <li><a href="@Url.Action("Index", "Home", new {area="HumanResource"})"
                                 class="block py-2 px-3 text-blue-500 hover:text-blue-600">人事</a></li>
-                        <li><a href="@Url.Action("Index", "Home", new {area="Manufacture"})"
+                        <li><a href="@Url.Action("Index", "Home", new {area="Production"})"
                                 class="block py-2 px-3 text-blue-500 hover:text-blue-600">制造</a></li>
                         <li><a href="@Url.Action("Index", "Agent")"
                                 class="block py-2 px-3 text-blue-500 hover:text-blue-600">Copilot</a></li>
@@ -70,9 +69,10 @@
         @RenderBody()
     </main>
 </div>
-
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <script>
         // 简单控制移动端菜单显示隐藏
         document.getElementById('nav-toggle').addEventListener('click', function () {

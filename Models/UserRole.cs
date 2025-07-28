@@ -10,10 +10,13 @@ public class UserRole
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
-    public int UserId;
-    public User User;
+    public int UserId { get; set; }
 
-    public int RoleId;
-    public Role Role;
-    
+    [ForeignKey("UserId")]
+    public User User { get; set; }
+
+    public int RoleId { get; set; }
+
+    [ForeignKey("RoleId")]
+    public Role Role { get; set; }
 }

@@ -21,6 +21,7 @@ public class TransactionLine
     [ForeignKey("ItemId")]
     public Item Item { get; set; }
 
+    [Column(TypeName = "decimal(18,2)")]
     public decimal Quantity { get; set; }
 
     public int? WarehouseId { get; set; }

@@ -2,7 +2,7 @@ using ArERP.Areas.HumanResource.Models;
 using ArERP.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace ArERP.Areas.HumanResource.Repositories.Impl;
+namespace ArERP.Areas.HumanResource.Repository.Impl;
 
 public class EmployeeSeparationRepository : IEmployeeSeparationRepository
 {

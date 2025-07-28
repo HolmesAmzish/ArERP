@@ -1,5 +1,5 @@
 using ArERP.Areas.HumanResource.Models;
-using ArERP.Areas.HumanResource.Repositories;
+using ArERP.Areas.HumanResource.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArERP.Areas.HumanResource.Controllers;
