@@ -1,5 +1,5 @@
 using ArERP.Areas.Inventory.Models;
-using ArERP.Repository;
+using ArERP.Data;
 
 namespace ArERP.Areas.Inventory.Repository.Impl;
 
@@ -23,5 +23,11 @@ public class WarehouseRepository : IWarehouseRepository
     public void RemoveWarehouse(Warehouse warehouse)
     {
         _context.Warehouses.Remove(warehouse);
+    }
+
+    public void UpdateWarehouse(Warehouse warehouse)
+    {
+        _context.Warehouses.Update(warehouse);
+        _context.SaveChanges();
     }
 }

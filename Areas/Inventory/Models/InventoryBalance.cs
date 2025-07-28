@@ -9,20 +9,18 @@ public class InventoryBalance
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     
-    [Display(Name="物品ID")]
+    [Display(Name = "物品ID")]
     public int ItemId { get; set; }
     [ForeignKey("ItemId")]
     public Item Item { get; set; }
     
-    [Display(Name="仓库ID")]
+    [Display(Name = "仓库ID")]
     public int WarehouseId { get; set; }
-    
     [ForeignKey("WarehouseId")]
+    [Display(Name = "cangku")]
     public Warehouse Warehouse { get; set; }
     
-    [Display(Name="存储数量")]
-    public decimal Quantity { get; set; }
-    
-    [Display(Name="更新日期")]
-    public DateTime LastUpdated { get; set; }
+    [Display(Name="存储数量")] public double Quantity { get; set; }
+
+    [Display(Name = "更新日期")] public DateTime LastUpdated { get; set; } = DateTime.Now;
 }

@@ -23,15 +23,11 @@ public class DepartmentController : Controller
     }
 
     [HttpGet]
-    public IActionResult Create()
-    {
-        return View();
-    }
+    public IActionResult Create() => View();
 
     [HttpPost]
     public IActionResult Create(Department department)
     {
-        
         if (!ModelState.IsValid)
         {
             return View(department);
@@ -50,6 +46,7 @@ public class DepartmentController : Controller
         {
             return NotFound();
         }
+
         return View(department);
     }
 
@@ -61,6 +58,7 @@ public class DepartmentController : Controller
         {
             return NotFound();
         }
+
         return View(department);
     }
 
@@ -83,8 +81,10 @@ public class DepartmentController : Controller
             {
                 throw;
             }
+
             return RedirectToAction(nameof(Index));
         }
+
         return View(department);
     }
 }

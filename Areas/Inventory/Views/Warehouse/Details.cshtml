@@ -1,0 +1,31 @@
+@model ArERP.Areas.Inventory.Models.Warehouse
+
+@{
+    Layout = "Panel";
+}
+
+<h2 class="text-2xl font-bold text-gray-800 mb-6">仓库详情</h2>
+
+<div class="bg-white shadow-md rounded-lg p-6 max-w-2xl">
+    <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6">
+        <div>
+            <dt class="text-sm font-medium text-gray-500">ID</dt>
+            <dd class="mt-1 text-base text-gray-900">@Model.Id</dd>
+        </div>
+
+        <div>
+            <dt class="text-sm font-medium text-gray-500">名称</dt>
+            <dd class="mt-1 text-base text-gray-900">@Model.Name</dd>
+        </div>
+
+        <div>
+            <dt class="text-sm font-medium text-gray-500">位置</dt>
+            <dd class="mt-1 text-base text-gray-900">@Model.Location</dd>
+        </div>
+
+        <div>
+            <dt class="text-sm font-medium text-gray-500">创建日期</dt>
+            <dd class="mt-1 text-base text-gray-900">@Model.CreationDate.ToString("yyyy-MM-dd")</dd>
+        </div>
+    </dl>
+</div>

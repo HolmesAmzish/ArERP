@@ -1,0 +1,44 @@
+@model IEnumerable<ArERP.Areas.Inventory.Models.Item>
+
+@{
+    Layout = "Panel";
+}
+
+<div class="flex justify-between mb-4">
+    <h2 class="text-2xl">Item List</h2>
+    <a asp-action="Create"
+       class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">Add Item</a>
+</div>
+
+<div>
+    <table class="min-w-full">
+        <thead>
+        <tr>
+            <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">Id</th>
+            <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">Code</th>
+            <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">Name</th>
+            <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">Type</th>
+            <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">Unit</th>
+            <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">Created</th>
+            <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">Operation</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2">@item.Id</td>
+                <td class="px-4 py-2">@item.Code</td>
+                <td class="px-4 py-2">@item.Name</td>
+                <td class="px-4 py-2">@item.Type</td>
+                <td class="px-4 py-2">@item.Unit</td>
+                <td class="px-4 py-2">@item.CreateDate.ToString("yyyy-MM-dd")</td>
+                <td class="px-4 py-2">
+                    <a asp-area="Inventory" asp-controller="Item" asp-action="Details" asp-route-id="@item.Id"
+                       class="text-blue-600 hover:underline">详情</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

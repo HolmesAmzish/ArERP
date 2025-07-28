@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ArERP.Areas.HumanResource.Models;
-using ArERP.Repository;
+using ArERP.Data;
 
 namespace ArERP.Areas.HumanResource.Repositories.Impl;
 

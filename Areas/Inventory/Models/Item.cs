@@ -10,11 +10,13 @@ public class Item
     public int Id { get;set; }
     [Display(Name="代号")]
     public string Code { get; set; }
-    public string name { get; set; }
+    public string Name { get; set; }
+    
     [Display(Name="物品类型")]
-    public ItemType type { get; set; }
+    public ItemType Type { get; set; }
+    
     [Display(Name="单位")]
-    public string unit { get; set; }
+    public string Unit { get; set; }
     
     [Display(Name="创建日期")]
     [DataType(DataType.Date)]

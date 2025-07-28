@@ -1,5 +1,4 @@
 using ArERP.Models.Entity;
-using ArERP.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;

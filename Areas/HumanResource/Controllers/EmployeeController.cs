@@ -3,10 +3,12 @@ using ArERP.Areas.HumanResource.Models;
 using ArERP.Areas.HumanResource.Repositories;
 
 namespace ArERP.Areas.HumanResource.Controllers;
+
 [Area("HumanResource")]
 public class EmployeeController : Controller
 {
     private readonly IEmployeeRepository _employeeRepository;
+
     public EmployeeController(IEmployeeRepository employeeRepository)
     {
         this._employeeRepository = employeeRepository;
@@ -38,7 +40,7 @@ public class EmployeeController : Controller
         _employeeRepository.AddEmployee(employee);
         return RedirectToAction(nameof(Index));
     }
-    
+
     // GET: /Employee/Details/{id}
     [HttpGet]
     public IActionResult Details(int id)
@@ -46,14 +48,14 @@ public class EmployeeController : Controller
         var employee = _employeeRepository.GetEmployeeById(id);
         return View(employee);
     }
-    
+
     // Get: /Employee/Edit/{id}
     public IActionResult Edit(int id)
     {
         var employee = _employeeRepository.GetEmployeeById(id);
         return View(employee);
     }
-    
+
     // POST: /Employee/Edit/{id}
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -61,7 +63,8 @@ public class EmployeeController : Controller
         int id,
         [Bind("Id,EmployeeName,Gender,BirthDate,Email,Phone,HireDate,Department,Position,Salary,IsActive")]
         Employee employee
-    ) {
+    )
+    {
         if (ModelState.IsValid)
         {
             try
@@ -72,8 +75,10 @@ public class EmployeeController : Controller
             {
                 throw;
             }
+
             return RedirectToAction(nameof(Index));
         }
+
         return View(employee);
     }
 }

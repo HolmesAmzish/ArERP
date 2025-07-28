@@ -17,7 +17,8 @@ public class WarehouseController : Controller
     // GET: /Inventory/Warehouse
     public IActionResult Index()
     {
-        return View(_warehouseRepository.GetAllWarehouses());
+        var warehouses = _warehouseRepository.GetAllWarehouses();
+        return View(warehouses);
     }
     
     // GET: /Inventory/Warehouse/Create
@@ -30,5 +31,18 @@ public class WarehouseController : Controller
     {
         _warehouseRepository.AddWarehouse(warehouse);
         return RedirectToAction(nameof(Index));
+    }
+    
+    // GET: /Inventory/Warehouse/Details/{id}
+    [HttpGet]
+    public IActionResult Details(int id)
+    {
+        var warehouse = _warehouseRepository.GetWarehouseById(id);
+        if (warehouse == null)
+        {
+            return NotFound();
+        }
+
+        return View(warehouse);
     }
 }

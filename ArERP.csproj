@@ -29,7 +29,6 @@
     <Folder Include="Areas\Procurement\" />
     <Folder Include="Areas\Production\Controllers\" />
     <Folder Include="Areas\Sales\" />
-    <Folder Include="Services\" />
     <Folder Include="Views\Inventory\" />
   </ItemGroup>
 

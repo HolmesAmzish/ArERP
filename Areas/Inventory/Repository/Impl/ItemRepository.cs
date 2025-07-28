@@ -1,5 +1,5 @@
 using ArERP.Areas.Inventory.Models;
-using ArERP.Repository;
+using ArERP.Data;
 
 namespace ArERP.Areas.Inventory.Repository.Impl;
 

@@ -13,8 +13,9 @@ public class Warehouse
     public string Name { get; set; }
     [Display(Name="仓库位置")]
     public string? Location { get; set; }
-    [Display(Name="最大存储")]
-    public decimal MaxCapacity { get; set; }
-    [Display(Name="当前存储")]
-    public decimal CurrentCapacity { get; set; } = 0;
+
+    [DataType(DataType.Date)]
+    public DateTime CreationDate { get; set; } = DateTime.Now;
+
+    public bool Deleted { get; set; } = false;
 }
