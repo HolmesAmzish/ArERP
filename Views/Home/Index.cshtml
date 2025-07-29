@@ -1,8 +1,177 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
+    var shiftStats = ViewBag.shiftStats as List<ArERP.Dtos.EmployeeShiftStats>;
+    var workshopStats = ViewBag.workshopStats as List<ArERP.Areas.Production.Models.Workshop>;
+    var workOrders = ViewBag.workOrders as List<ArERP.Areas.Production.Models.WorkOrder>;
 }
 
-<div class="items-center">
-    <h1 class="text-3xl font-bold">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="max-w-7xl mx-auto p-6 space-y-10">
+
+    <h1 class="text-4xl font-semibold text-gray-800 mb-6">仪表盘 Dashboard</h1>
+
+    <!-- 员工班次统计 -->
+    <section>
+        <h2 class="text-2xl font-medium text-gray-700 mb-4">员工班次统计</h2>
+        <div id="shiftChart" class="w-full h-96 rounded-lg shadow-md bg-white p-4"></div>
+    </section>
+
+    <!-- 车间统计 -->
+    <section>
+        <h2 class="text-2xl font-medium text-gray-700 mb-4">车间 OEE & 负载统计</h2>
+        <div id="workshopChart" class="w-full h-96 rounded-lg shadow-md bg-white p-4"></div>
+    </section>
+
+    <!-- 工单列表 -->
+    <section>
+        <h2 class="text-2xl font-medium text-gray-700 mb-4">工单列表</h2>
+        <table class="min-w-full divide-y divide-gray-200 bg-white rounded-lg shadow-md">
+            <thead class="bg-gray-50">
+            <tr>
+                <th class="px-6 py-3 text-left font-semibold tracking-wider">订单号</th>
+                <th class="px-6 py-3 text-left font-semibold tracking-wider">产品名称</th>
+                <th class="px-6 py-3 text-left font-semibold tracking-wider">数量</th>
+                <th class="px-6 py-3 text-left font-semibold tracking-wider">计划日期</th>
+                <th class="px-6 py-3 text-left font-semibold tracking-wider">状态</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+            @foreach (var order in workOrders)
+            {
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">@order.OrderNumber</td>
+                    <td class="px-6 py-4 whitespace-nowrap">@order.Product.Code</td>
+                    <td class="px-6 py-4 whitespace-nowrap">@order.Quantity</td>
+                    <td class="px-6 py-4 whitespace-nowrap">@order.ScheduledDate.ToString("yyyy-MM-dd")</td>
+                    <td class="px-6 py-4 whitespace-nowrap">@order.Status.ToString()</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </section>
 </div>
+
+@section Scripts{
+<script>
+    // --- 员工班次统计 ---
+
+    var shiftChartDom = document.getElementById('shiftChart');
+    var shiftChart = echarts.init(shiftChartDom);
+
+    var shiftData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(shiftStats.Select(s => new {
+        name = s.Shift?.Name ?? "未分配",
+        value = s.EmployeeNumber
+    })));
+
+    var shiftOption = {
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            top: 'bottom',
+            textStyle: {color: '#4B5563'}
+        },
+        series: [
+            {
+                name: '员工班次',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                avoidLabelOverlap: false,
+                itemStyle: {
+                    borderRadius: 6,
+                    borderColor: '#fff',
+                    borderWidth: 2
+                },
+                label: {
+                    show: true,
+                    formatter: '{b}: {c} 人',
+                    color: '#374151',
+                    fontSize: 14,
+                    fontWeight: 'bold'
+                },
+                labelLine: {
+                    show: true
+                },
+                data: shiftData
+            }
+        ]
+    };
+
+    shiftChart.setOption(shiftOption);
+
+    // --- 车间统计 ---
+
+    var workshopChartDom = document.getElementById('workshopChart');
+    var workshopChart = echarts.init(workshopChartDom);
+
+    var workshopData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(workshopStats));
+
+    var workshopNames = workshopData.map(w => w.WorkshopName);
+    var oeeData = workshopData.map(w => w.Oee);
+    var workloadData = workshopData.map(w => w.Workload);
+
+    var workshopOption = {
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: ['OEE', 'Workload'],
+            textStyle: {color: '#4B5563'}
+        },
+        xAxis: {
+            type: 'category',
+            data: workshopNames,
+            axisLabel: {
+                rotate: 30,
+                color: '#4B5563'
+            }
+        },
+        yAxis: [
+            {
+                type: 'value',
+                name: 'OEE (%)',
+                min: 0,
+                max: 100,
+                position: 'left',
+                axisLine: {lineStyle: {color: '#2563EB'}},
+                axisLabel: {formatter: '{value}%'}
+            },
+            {
+                type: 'value',
+                name: 'Workload',
+                min: 0,
+                position: 'right',
+                axisLine: {lineStyle: {color: '#F59E0B'}},
+                axisLabel: {formatter: '{value}'}
+            }
+        ],
+        series: [
+            {
+                name: 'OEE',
+                type: 'bar',
+                data: oeeData,
+                itemStyle: {
+                    color: '#2563EB'
+                }
+            },
+            {
+                name: 'Workload',
+                type: 'line',
+                yAxisIndex: 1,
+                data: workloadData,
+                itemStyle: {
+                    color: '#F59E0B'
+                },
+                smooth: true
+            }
+        ]
+    };
+
+    workshopChart.setOption(workshopOption);
+
+    window.addEventListener('resize', function () {
+        shiftChart.resize();
+        workshopChart.resize();
+    });
+</script>
+}
+

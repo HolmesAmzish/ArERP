@@ -1,16 +1,19 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ArERP.Areas.Inventory.Enum;
 
 namespace ArERP.Areas.Inventory.Models;
 
 public class Item
 {
     [Key] [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [Display(Name = "物品编号")]
     public int Id { get;set; }
     
     [Display(Name="代号")]
     public string Code { get; set; }
     
+    [Display(Name="物品名称")]
     public string Name { get; set; }
     
     [Display(Name="物品类型")]

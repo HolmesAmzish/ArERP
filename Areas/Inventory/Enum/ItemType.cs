@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ArERP.Areas.Inventory.Models;
+namespace ArERP.Areas.Inventory.Enum;
 
 public enum ItemType
 {

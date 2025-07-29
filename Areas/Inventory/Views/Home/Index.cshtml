@@ -4,33 +4,23 @@ Layout = "Panel";
 }
 
 
-<div class="container mx-auto p-4">
-    <h2 class="text-2xl font-bold mb-6 text-gray-800">@ViewData["Title"]</h2>
-
-    <!-- 图表容器 -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div class="bg-white p-4 rounded-lg shadow">
-            <h3 class="text-lg font-semibold mb-4">库存数量分布</h3>
-            <div id="quantityChart" class="h-64"></div>
-        </div>
-        <div class="bg-white p-4 rounded-lg shadow">
-            <h3 class="text-lg font-semibold mb-4">仓库库存占比</h3>
-            <div id="warehouseChart" class="h-64"></div>
-        </div>
-    </div>
-
-    <!-- 表格容器 -->
+<div class="flex justify-between mb-4">
+    <h2 class="text-2xl">@ViewData["Title"]</h2>
+    <a asp-action="Create"
+       class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">Add Warehouse</a>
+</div>
+<div>
     <div class="bg-white rounded-lg shadow overflow-hidden">
         <table class="min-w-full divide-y divide-gray-200" id="inventoryTable">
-            <thead class="bg-gray-800 text-white">
+            <thead class="text-black">
             <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">物品编号</th>
-                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">物品名称</th>
-                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">仓库</th>
-                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">位置</th>
-                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">库存数量</th>
-                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">单位</th>
-                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">最后更新</th>
+                <th class="px-6 py-3 text-left tracking-wider">物品编号</th>
+                <th class="px-6 py-3 text-left tracking-wider">物品名称</th>
+                <th class="px-6 py-3 text-left tracking-wider">仓库</th>
+                <th class="px-6 py-3 text-left tracking-wider">位置</th>
+                <th class="px-6 py-3 text-left tracking-wider">库存数量</th>
+                <th class="px-6 py-3 text-left tracking-wider">单位</th>
+                <th class="px-6 py-3 text-left tracking-wider">最后更新</th>
             </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -71,13 +61,13 @@ Layout = "Panel";
                 const row = document.createElement('tr');
                 row.className = 'hover:bg-gray-50';
                 row.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${item.item?.code || 'N/A'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${item.item?.name || 'N/A'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${item.warehouse?.name || 'N/A'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${item.warehouse?.location || 'N/A'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${parseFloat(item.quantity).toFixed(2)}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${item.item?.unit || ''}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${new Date(item.lastUpdated).toLocaleString()}</td>
+                    <td class="px-6 py-4">${item.item?.code || 'N/A'}</td>
+                    <td class="px-6 py-4">${item.item?.name || 'N/A'}</td>
+                    <td class="px-6 py-4">${item.warehouse?.name || 'N/A'}</td>
+                    <td class="px-6 py-4">${item.warehouse?.location || 'N/A'}</td>
+                    <td class="px-6 py-4">${parseFloat(item.quantity).toFixed(2)}</td>
+                    <td class="px-6 py-4">${item.item?.unit || ''}</td>
+                    <td class="px-6 py-4">${new Date(item.lastUpdated).toLocaleString()}</td>
                 `;
                 tableBody.appendChild(row);
             });
@@ -98,69 +88,7 @@ Layout = "Panel";
                 }
                 warehouseData[item.warehouse?.name] += item.quantity;
             });
-
-            const quantityChart = echarts.init(document.getElementById('quantityChart'));
-            quantityChart.setOption({
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: { type: 'shadow' }
-                },
-                xAxis: {
-                    type: 'category',
-                    data: Object.keys(itemData),
-                    axisLabel: { rotate: 30 }
-                },
-                yAxis: { type: 'value' },
-                series: [{
-                    name: '库存数量',
-                    type: 'bar',
-                    data: Object.values(itemData),
-                    itemStyle: {
-                        color: function(params) {
-                            const colorList = ['#4f81bd', '#c0504d', '#9bbb59', '#8064a2', '#4bacc6', '#f79646'];
-                            return colorList[params.dataIndex % colorList.length];
-                        }
-                    }
-                }]
-            });
-
-            const warehouseChart = echarts.init(document.getElementById('warehouseChart'));
-            warehouseChart.setOption({
-                tooltip: { trigger: 'item' },
-                legend: {
-                    orient: 'vertical',
-                    right: 10,
-                    top: 'center'
-                },
-                series: [{
-                    name: '库存占比',
-                    type: 'pie',
-                    radius: ['40%', '70%'],
-                    avoidLabelOverlap: false,
-                    itemStyle: {
-                        borderRadius: 10,
-                        borderColor: '#fff',
-                        borderWidth: 2
-                    },
-                    label: {
-                        show: false,
-                        position: 'center'
-                    },
-                    emphasis: {
-                        label: { show: true, fontSize: '18', fontWeight: 'bold' }
-                    },
-                    labelLine: { show: false },
-                    data: Object.keys(warehouseData).map(name => ({
-                        name: name,
-                        value: warehouseData[name]
-                    }))
-                }]
-            });
-
-            window.addEventListener('resize', function() {
-                quantityChart.resize();
-                warehouseChart.resize();
-            });
+            
         }
     });
 </script>

@@ -5,8 +5,8 @@ namespace ArERP.Areas.Inventory.Models;
 
 public class Warehouse
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [Key] [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [Display(Name = "仓库编号")]
     public int Id { get; set; }
     
     [Display(Name="仓库名称")]

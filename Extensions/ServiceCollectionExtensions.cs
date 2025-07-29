@@ -32,6 +32,8 @@ public static class ServiceCollectionExtensions
         // Production
         services.AddScoped<IBomRepository, BomRepository>();
         services.AddScoped<IShiftRepository, ShiftRepository>();
+        services.AddScoped<IWorkshopRepository, WorkshopRepository>();
+        services.AddScoped<IWorkOrderRepository, WorkOrderRepository>();
         return services;
     }
 

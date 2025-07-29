@@ -4,6 +4,6 @@ namespace ArERP.Dtos;
 
 public class EmployeeShiftStats
 {
-    public Shift? Shift;
+    public Shift Shift;
     public int EmployeeNumber;
 }

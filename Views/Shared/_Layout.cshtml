@@ -63,7 +63,7 @@
         </nav>
     </header>
 
-<div class="container mx-auto px-4">
+<div class="container mx-auto">
     
     <main role="main" class="pb-6">
         @RenderBody()
@@ -72,9 +72,8 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="~/lib/echarts/echarts.min.js"></script>
     <script>
-        // 简单控制移动端菜单显示隐藏
         document.getElementById('nav-toggle').addEventListener('click', function () {
             const navContent = document.getElementById('nav-content');
             navContent.classList.toggle('hidden');

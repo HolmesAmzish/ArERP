@@ -5,35 +5,35 @@
 }
 
 <div class="flex justify-between mb-4">
-    <h2 class="text-2xl">Item List</h2>
+    <h2 class="text-2xl">物品列表</h2>
     <a asp-action="Create"
-       class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">Add Item</a>
+       class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">添加物品种类</a>
 </div>
 
-<div>
-    <table class="min-w-full">
-        <thead>
+<div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
         <tr>
-            <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">Id</th>
-            <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">Code</th>
-            <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">Name</th>
-            <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">Type</th>
-            <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">Unit</th>
-            <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">Created</th>
-            <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">Operation</th>
+            <th class="px-6 py-3 text-left font-semibold tracking-wider">@Html.DisplayNameFor(item => item.Id)</th>
+            <th class="px-6 py-3 text-left font-semibold tracking-wider">@Html.DisplayNameFor(item => item.Code)</th>
+            <th class="px-6 py-3 text-left font-semibold tracking-wider">@Html.DisplayNameFor(item => item.Name)</th>
+            <th class="px-6 py-3 text-left font-semibold tracking-wider">@Html.DisplayNameFor(item => item.Type)</th>
+            <th class="px-6 py-3 text-left font-semibold tracking-wider">@Html.DisplayNameFor(item => item.Unit)</th>
+            <th class="px-6 py-3 text-left font-semibold tracking-wider">@Html.DisplayNameFor(item => item.CreateDate)</th>
+            <th class="px-6 py-3 text-left font-semibold tracking-wider">操作</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="bg-white divide-y divide-gray-200">
         @foreach (var item in Model)
         {
             <tr class="hover:bg-gray-50">
-                <td class="px-4 py-2">@item.Id</td>
-                <td class="px-4 py-2">@item.Code</td>
-                <td class="px-4 py-2">@item.Name</td>
-                <td class="px-4 py-2">@item.Type</td>
-                <td class="px-4 py-2">@item.Unit</td>
-                <td class="px-4 py-2">@item.CreateDate.ToString("yyyy-MM-dd")</td>
-                <td class="px-4 py-2">
+                <td class="px-6 py-4">@item.Id</td>
+                <td class="px-6 py-4">@item.Code</td>
+                <td class="px-6 py-4">@item.Name</td>
+                <td class="px-6 py-4">@item.Type</td>
+                <td class="px-6 py-4">@item.Unit</td>
+                <td class="px-6 py-4">@item.CreateDate.ToString("yyyy-MM-dd")</td>
+                <td class="px-6 py-4">
                     <a asp-area="Inventory" asp-controller="Item" asp-action="Details" asp-route-id="@item.Id"
                        class="text-blue-600 hover:underline">详情</a>
                 </td>

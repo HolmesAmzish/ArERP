@@ -7,6 +7,6 @@ namespace ArERP.Service;
 public interface IDashboardService
 {
     List<EmployeeShiftStats> GetEmployeeShiftStats();
-    List<WorkshopStats> GetWorkshopStats();
+    List<Workshop> GetWorkshopStats();
     List<WorkOrder> GetWorkOrders();
 }

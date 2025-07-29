@@ -1,3 +1,4 @@
+using ArERP.Areas.Inventory.Enum;
 using ArERP.Areas.Inventory.Models;
 using Microsoft.EntityFrameworkCore;
 

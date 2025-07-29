@@ -45,18 +45,11 @@ public class DashboardService : IDashboardService
         return results;
     }
 
-    public List<WorkshopStats> GetWorkshopStats()
+    public List<Workshop> GetWorkshopStats()
     {
         List<Workshop> allWorkshops = _workshopRepository.GetAllWorkshops();
-        
-        var results = allWorkshops.Select(w => new WorkshopStats
-        {
-            WorkshopName = w.Name,
-            Oee = w.Oee,
-            Workload = w.Workload
-        }).ToList();
-        
-        return results;
+        Console.WriteLine(allWorkshops);
+        return allWorkshops;
     }
 
     public List<WorkOrder> GetWorkOrders() =>
