@@ -29,7 +29,6 @@
     <Folder Include="Areas\Finance\Repository\Impl\" />
     <Folder Include="Areas\Procurement\Controller\Impl\" />
     <Folder Include="Areas\Procurement\Repository\" />
-    <Folder Include="Areas\Production\Service\Impl\" />
     <Folder Include="Areas\Sales\Controller\" />
     <Folder Include="Areas\Sales\Repository\Impl\" />
     <Folder Include="Models\Enum\" />

@@ -1,6 +1,6 @@
 using ArERP.Areas.Production.Models;
 
-namespace Areas.Production.Service
+namespace ArERP.Areas.Production.Service
 {
     public interface IBomService
     {

@@ -1,7 +1,7 @@
 using ArERP.Areas.Production.Models;
 using ArERP.Areas.Production.Repository;
 
-namespace Areas.Production.Service.Impl
+namespace ArERP.Areas.Production.Service.Impl
 {
     public class BomService : IBomService
     {

@@ -21,7 +21,9 @@ namespace ArERP.Controllers
         {
             ViewBag.shiftStats = _dashboardService.GetEmployeeShiftStats();
             ViewBag.workshopStats = _dashboardService.GetWorkshopStats();
-            ViewBag.workOrders = _dashboardService.GetWorkOrders();
+            ViewBag.workOrders = _dashboardService.GetAllWorkOrders();
+            ViewBag.workOrderStats = _dashboardService.GetWorkOrderStats();
+            ViewBag.productionStats = _dashboardService.GetAllProductionTransactions();
             return View();
         }
 

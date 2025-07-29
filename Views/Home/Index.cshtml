@@ -1,177 +1,331 @@
-﻿@{
+@using ArERP.Areas.Production.Enum
+@using ArERP.Helper
+@{
     ViewData["Title"] = "Dashboard";
     var shiftStats = ViewBag.shiftStats as List<ArERP.Dtos.EmployeeShiftStats>;
     var workshopStats = ViewBag.workshopStats as List<ArERP.Areas.Production.Models.Workshop>;
     var workOrders = ViewBag.workOrders as List<ArERP.Areas.Production.Models.WorkOrder>;
+    var workOrderStats = ViewBag.workOrderStats as List<ArERP.Areas.Production.Dtos.WorkOrderStats>;
+    var productionStats = ViewBag.productionStats as List<ArERP.Dtos.ProductionTransactionStats>;
 }
 
-<div class="max-w-7xl mx-auto p-6 space-y-10">
+<div class="mx-auto p-6 space-y-16">
 
-    <h1 class="text-4xl font-semibold text-gray-800 mb-6">仪表盘 Dashboard</h1>
+    @* <h1 class="text-2xl font-bold mb-6">仪表盘 Dashboard</h1> *@
 
-    <!-- 员工班次统计 -->
-    <section>
-        <h2 class="text-2xl font-medium text-gray-700 mb-4">员工班次统计</h2>
-        <div id="shiftChart" class="w-full h-96 rounded-lg shadow-md bg-white p-4"></div>
-    </section>
-
-    <!-- 车间统计 -->
-    <section>
-        <h2 class="text-2xl font-medium text-gray-700 mb-4">车间 OEE & 负载统计</h2>
-        <div id="workshopChart" class="w-full h-96 rounded-lg shadow-md bg-white p-4"></div>
-    </section>
-
-    <!-- 工单列表 -->
-    <section>
-        <h2 class="text-2xl font-medium text-gray-700 mb-4">工单列表</h2>
-        <table class="min-w-full divide-y divide-gray-200 bg-white rounded-lg shadow-md">
-            <thead class="bg-gray-50">
-            <tr>
-                <th class="px-6 py-3 text-left font-semibold tracking-wider">订单号</th>
-                <th class="px-6 py-3 text-left font-semibold tracking-wider">产品名称</th>
-                <th class="px-6 py-3 text-left font-semibold tracking-wider">数量</th>
-                <th class="px-6 py-3 text-left font-semibold tracking-wider">计划日期</th>
-                <th class="px-6 py-3 text-left font-semibold tracking-wider">状态</th>
-            </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200">
-            @foreach (var order in workOrders)
-            {
+    <div class="flex justify-between items-start w-full mx-auto space-x-4">
+        <!-- 工单列表 -->
+        <section class="w-2/3">
+            <h2 class="text-2xl font-medium text-gray-700 mb-4">工单列表</h2>
+            <table class="w-full divide-y divide-gray-200 bg-white rounded-lg shadow-md">
+                <thead class="bg-gray-50">
                 <tr>
-                    <td class="px-6 py-4 whitespace-nowrap">@order.OrderNumber</td>
-                    <td class="px-6 py-4 whitespace-nowrap">@order.Product.Code</td>
-                    <td class="px-6 py-4 whitespace-nowrap">@order.Quantity</td>
-                    <td class="px-6 py-4 whitespace-nowrap">@order.ScheduledDate.ToString("yyyy-MM-dd")</td>
-                    <td class="px-6 py-4 whitespace-nowrap">@order.Status.ToString()</td>
+                    <th class="px-6 py-3 text-left font-semibold tracking-wider">订单号</th>
+                    <th class="px-6 py-3 text-left font-semibold tracking-wider">产品名称</th>
+                    <th class="px-6 py-3 text-left font-semibold tracking-wider">数量</th>
+                    <th class="px-6 py-3 text-left font-semibold tracking-wider">计划日期</th>
+                    <th class="px-6 py-3 text-left font-semibold tracking-wider">状态</th>
                 </tr>
-            }
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                @foreach (var order in workOrders)
+                {
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">@order.OrderNumber</td>
+                        <td class="px-6 py-4 whitespace-nowrap">@order.Product.Code</td>
+                        <td class="px-6 py-4 whitespace-nowrap">@order.Quantity</td>
+                        <td class="px-6 py-4 whitespace-nowrap">@order.ScheduledDate.ToString("yyyy-MM-dd")</td>
+                        <td class="px-6 py-4 whitespace-nowrap flex items-center space-x-2">
+                            <span
+                                class="w-3 h-3 rounded-full"
+                                style="background-color:@(order.Status switch
+                                                        {
+                                                            OrderStatus.Planned => "#3B82F6",
+                                                            OrderStatus.InProgress => "#fac858",
+                                                            OrderStatus.Completed => "#91cc75",
+                                                            _ => "#6B7280"
+                                                        })">
+                            </span>
+                            <span>@order.Status.GetDisplayName()</span>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- 工单统计 -->
+        <section class="w-1/3">
+            <h2 class="text-2xl font-medium text-gray-700 mb-4">工单统计</h2>
+            <div class="grid grid-cols-3 gap-4">
+                <div class="bg-white rounded-lg px-4 py-2">
+                    @* <div class="w-4 h-4 rounded-full bg-blue-500 mb-2"></div> *@
+                    <div class="text-2xl text-blue-500 font-bold" id="plannedCount">0</div>
+                    <div class="text-gray-500">已计划</div>
+                </div>
+                <div class="bg-white rounded-lg px-4 py-2">
+                    @* <div class="w-4 h-4 rounded-full bg-yellow-400 mb-2"></div> *@
+                    <div class="text-2xl text-yellow-400 font-bold" id="inProgressCount">0</div>
+                    <div class="text-gray-500">进行中</div>
+                </div>
+                <div class="bg-white rounded-lg px-4 py-2">
+                    @* <div class="w-4 h-4 rounded-full bg-green-400 mb-2"></div> *@
+                    <div class="text-2xl text-green-400 font-bold" id="completedCount">0</div>
+                    <div class="text-gray-500">已完成</div>
+                </div>
+            </div>
+            <div id="workOrderChart" class="h-96 rounded-lg shadow-md bg-white p-4"></div>
+        </section>
+
+    </div>
+
+
+    <div class="flex justify-between items-start w-full mx-auto space-x-4">
+        <!-- 员工班次统计 -->
+        <section class="w-1/3">
+            <h2 class="text-2xl font-medium text-gray-700 mb-4">班次统计</h2>
+            <div id="shiftChart" class="h-96 rounded-lg shadow-md bg-white p-4"></div>
+        </section>
+        <!-- 车间统计 -->
+        <section class="w-2/3">
+            <h2 class="text-2xl font-medium text-gray-700 mb-4">车间 OEE & 负载统计</h2>
+            <div id="workshopChart" class="w-full h-96 rounded-lg shadow-md bg-white p-4"></div>
+        </section>
+    </div>    
+    
+    <!-- 生产趋势统计 -->
+    <section>
+        <h2 class="text-2xl font-medium text-gray-700 mb-4">生产入库统计</h2>
+        <div id="productionChart" class="w-full h-96 rounded-lg shadow-md bg-white p-4"></div>
     </section>
+
+    
 </div>
 
 @section Scripts{
-<script>
-    // --- 员工班次统计 ---
+    <script>
+        var workOrderStatistics = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(workOrderStats));
+        console.log(workOrderStatistics)
+        // --- 工单状态统计 ---
+        var workOrderChartDom = document.getElementById('workOrderChart');
+        var workOrderChart = echarts.init(workOrderChartDom);
 
-    var shiftChartDom = document.getElementById('shiftChart');
-    var shiftChart = echarts.init(shiftChartDom);
-
-    var shiftData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(shiftStats.Select(s => new {
-        name = s.Shift?.Name ?? "未分配",
-        value = s.EmployeeNumber
-    })));
-
-    var shiftOption = {
-        tooltip: {
-            trigger: 'item'
-        },
-        legend: {
-            top: 'bottom',
-            textStyle: {color: '#4B5563'}
-        },
-        series: [
-            {
-                name: '员工班次',
-                type: 'pie',
-                radius: ['40%', '70%'],
-                avoidLabelOverlap: false,
-                itemStyle: {
-                    borderRadius: 6,
-                    borderColor: '#fff',
-                    borderWidth: 2
-                },
-                label: {
-                    show: true,
-                    formatter: '{b}: {c} 人',
-                    color: '#374151',
-                    fontSize: 14,
-                    fontWeight: 'bold'
-                },
-                labelLine: {
-                    show: true
-                },
-                data: shiftData
+        var workOrderData = workOrderStatistics.map(s => ({
+            name: s.OrderStatus === 0 ? '已计划' : s.OrderStatus === 1 ? '进行中' : '已完成',
+            value: s.OrderCount,
+            itemStyle: {
+                color: s.OrderStatus === 0 ? '#3B82F6' : s.OrderStatus === 1 ? '#fac858' : '#91cc75'
             }
-        ]
-    };
+        }));
 
-    shiftChart.setOption(shiftOption);
 
-    // --- 车间统计 ---
+        // 更新数字显示
+        document.getElementById('plannedCount').textContent = 
+            workOrderStatistics.find(s => s.OrderStatus === 0)?.OrderCount || 0;
+        document.getElementById('inProgressCount').textContent = 
+            workOrderStatistics.find(s => s.OrderStatus === 1)?.OrderCount || 0;
+        document.getElementById('completedCount').textContent = 
+            workOrderStatistics.find(s => s.OrderStatus === 2)?.OrderCount || 0;
 
-    var workshopChartDom = document.getElementById('workshopChart');
-    var workshopChart = echarts.init(workshopChartDom);
-
-    var workshopData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(workshopStats));
-
-    var workshopNames = workshopData.map(w => w.WorkshopName);
-    var oeeData = workshopData.map(w => w.Oee);
-    var workloadData = workshopData.map(w => w.Workload);
-
-    var workshopOption = {
-        tooltip: {
-            trigger: 'axis'
-        },
-        legend: {
-            data: ['OEE', 'Workload'],
-            textStyle: {color: '#4B5563'}
-        },
-        xAxis: {
-            type: 'category',
-            data: workshopNames,
-            axisLabel: {
-                rotate: 30,
-                color: '#4B5563'
-            }
-        },
-        yAxis: [
-            {
-                type: 'value',
-                name: 'OEE (%)',
-                min: 0,
-                max: 100,
-                position: 'left',
-                axisLine: {lineStyle: {color: '#2563EB'}},
-                axisLabel: {formatter: '{value}%'}
+        var workOrderOption = {
+            tooltip: {
+                trigger: 'item',
+                formatter: '{b}: {c} ({d}%)'
             },
-            {
-                type: 'value',
-                name: 'Workload',
-                min: 0,
-                position: 'right',
-                axisLine: {lineStyle: {color: '#F59E0B'}},
-                axisLabel: {formatter: '{value}'}
-            }
-        ],
-        series: [
-            {
-                name: 'OEE',
-                type: 'bar',
-                data: oeeData,
-                itemStyle: {
-                    color: '#2563EB'
+            legend: {
+                top: 'bottom',
+                textStyle: {color: '#4B5563'}
+            },
+            series: [
+                {
+                    name: '工单状态',
+                    type: 'pie',
+                    radius: ['40%', '70%'],
+                    avoidLabelOverlap: false,
+                    itemStyle: {
+                        borderRadius: 6,
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    },
+                    label: {
+                        show: true,
+                        formatter: '{b}: {c}',
+                        color: '#374151',
+                        fontSize: 14,
+                        fontWeight: 'bold'
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: 18,
+                            fontWeight: 'bold'
+                        }
+                    },
+                    labelLine: {
+                        show: true
+                    },
+                    data: workOrderData
+                }
+            ]
+        };
+        
+        workOrderChart.setOption(workOrderOption);
+
+
+        // --- 员工班次统计 ---
+
+        var shiftChartDom = document.getElementById('shiftChart');
+        var shiftChart = echarts.init(shiftChartDom);
+    
+        var shiftData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(shiftStats.Select(s => new
+                        {
+                            name = s.Shift?.Name ?? "未分配",
+                            value = s.EmployeeNumber
+                        })));
+    
+        var shiftOption = {
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                top: 'bottom',
+                textStyle: {color: '#4B5563'}
+            },
+            series: [
+                {
+                    name: '员工班次',
+                    type: 'pie',
+                    radius: ['40%', '70%'],
+                    avoidLabelOverlap: false,
+                    itemStyle: {
+                        borderRadius: 6,
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    },
+                    label: {
+                        show: true,
+                        formatter: '{b}: {c} 人',
+                        color: '#374151',
+                        fontSize: 14,
+                        fontWeight: 'bold'
+                    },
+                    labelLine: {
+                        show: true
+                    },
+                    data: shiftData
+                }
+            ]
+        };
+    
+        shiftChart.setOption(shiftOption);
+    
+        // --- 车间统计 ---
+    
+        var workshopChartDom = document.getElementById('workshopChart');
+        var workshopChart = echarts.init(workshopChartDom);
+    
+        var workshopData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(workshopStats));
+    
+        var workshopNames = workshopData.map(w => w.Name);
+        var oeeData = workshopData.map(w => parseFloat(w.Oee));
+        var workloadData = workshopData.map(w => parseFloat(w.Workload));
+    
+        var workshopOption = {
+            tooltip: { trigger: 'axis' },
+            legend: {
+                data: ['OEE', 'Workload'],
+                textStyle: { color: '#4B5563' }
+            },
+            xAxis: {
+                type: 'category',
+                data: workshopNames,
+                axisLabel: {
+                    rotate: 30,
+                    color: '#4B5563'
                 }
             },
-            {
-                name: 'Workload',
-                type: 'line',
-                yAxisIndex: 1,
-                data: workloadData,
-                itemStyle: {
-                    color: '#F59E0B'
+            yAxis: {
+                type: 'value',
+                name: '指标值',
+                min: 0,
+                axisLabel: { formatter: '{value}' },
+                axisLine: { lineStyle: { color: '#4B5563' } }
+            },
+            series: [
+                {
+                    name: 'OEE',
+                    type: 'bar',
+                    data: oeeData,
+                    itemStyle: { color: '#3b82f7' },
+                    barGap: 0,
+                    barCategoryGap: '40%'
                 },
+                {
+                    name: 'Workload',
+                    type: 'bar',
+                    data: workloadData,
+                    itemStyle: { color: '#fac858' },
+                    barGap: 0
+                }
+            ]
+        };
+    
+        workshopChart.setOption(workshopOption);
+
+        // --- 生产趋势统计（折线图） ---
+
+        var productionStatsJson = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(productionStats));
+        console.log(productionStatsJson);
+        var productionChartDom = document.getElementById('productionChart');
+        var productionChart = echarts.init(productionChartDom);
+
+        var allDates = [...new Set(
+            productionStatsJson.flatMap(p => p.Data.map(d => d.RecordTime.split('T')[0]))
+        )].sort();
+
+        var productionSeries = productionStatsJson.map(p => {
+            var quantityMap = {};
+            p.Data.forEach(d => {
+                var date = d.RecordTime.split('T')[0];
+                quantityMap[date] = d.Quantity;
+            });
+
+            var data = allDates.map(date => quantityMap[date] || 0);
+
+            return {
+                name: p.Production,
+                type: 'line',
+                data: data,
                 smooth: true
-            }
-        ]
-    };
+            };
+        });
 
-    workshopChart.setOption(workshopOption);
+        var productionOption = {
+            tooltip: { trigger: 'axis' },
+            legend: {
+                data: productionStatsJson.map(p => p.Production),
+                textStyle: { color: '#4B5563' }
+            },
+            xAxis: {
+                type: 'category',
+                data: allDates,
+                axisLabel: { color: '#4B5563' }
+            },
+            yAxis: {
+                type: 'value',
+                name: '产量',
+                axisLabel: { color: '#4B5563' }
+            },
+            series: productionSeries
+        };
 
-    window.addEventListener('resize', function () {
-        shiftChart.resize();
-        workshopChart.resize();
-    });
-</script>
+        productionChart.setOption(productionOption);
+
+
+        window.addEventListener('resize', function () {
+            shiftChart.resize();
+            workshopChart.resize();
+            workOrderChart.resize();
+        });
+    </script>
 }
-

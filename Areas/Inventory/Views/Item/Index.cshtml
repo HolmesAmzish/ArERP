@@ -7,12 +7,12 @@
 <div class="flex justify-between mb-4">
     <h2 class="text-2xl">物品列表</h2>
     <a asp-action="Create"
-       class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">添加物品种类</a>
+       class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">Add Item</a>
 </div>
 
 <div class="bg-white rounded-lg shadow overflow-hidden">
     <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
+        <thead class="">
         <tr>
             <th class="px-6 py-3 text-left font-semibold tracking-wider">@Html.DisplayNameFor(item => item.Id)</th>
             <th class="px-6 py-3 text-left font-semibold tracking-wider">@Html.DisplayNameFor(item => item.Code)</th>

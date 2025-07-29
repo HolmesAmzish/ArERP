@@ -1,5 +1,6 @@
 using ArERP.Areas.Inventory.Models;
 using ArERP.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArERP.Areas.Inventory.Repository.Impl;
 
@@ -14,6 +15,8 @@ public class TransactionRepository : ITransactionRepository
 
     public List<Transaction> GetAllTransactions() =>
         _context.Transactions
+            .Include(t => t.Lines)
+            .ThenInclude(l => l.Item)
             .ToList();
     public Transaction? GetTransactionById(int id) =>
         _context.Transactions

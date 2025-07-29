@@ -10,10 +10,10 @@ public class Transaction
     public int Id { get; set; }
 
     public DateTime Date { get; set; } = DateTime.UtcNow;
+    
     public TransactionType Type { get; set; }
-
-    // public string? ReferenceType { get; set; }
-    // public int? ReferenceId { get; set; }
+    public int? SourceId { get; set; }
 
     public ICollection<TransactionLine> Lines { get; set; } = new List<TransactionLine>();
+    
 }

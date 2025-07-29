@@ -1,3 +1,4 @@
+using ArERP.Areas.Production.Enum;
 using ArERP.Areas.Production.Models;
 using ArERP.Data;
 using Microsoft.EntityFrameworkCore;
@@ -16,5 +17,11 @@ public class WorkOrderRepository : IWorkOrderRepository
     public List<WorkOrder> GetAllWorkOrders() => 
         _context.WorkOrders
             .Include(wo => wo.Product)
+            .ToList();
+
+    public List<WorkOrder> GetWorkOrdersByStatus(OrderStatus status) =>
+        _context.WorkOrders
+            .Include(wo => wo.Product)
+            .Where(wo => wo.Status == status)
             .ToList();
 }

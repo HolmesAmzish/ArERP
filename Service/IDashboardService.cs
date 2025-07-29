@@ -1,4 +1,5 @@
 using ArERP.Areas.HumanResource.Models;
+using ArERP.Areas.Production.Dtos;
 using ArERP.Areas.Production.Models;
 using ArERP.Dtos;
 
@@ -8,5 +9,7 @@ public interface IDashboardService
 {
     List<EmployeeShiftStats> GetEmployeeShiftStats();
     List<Workshop> GetWorkshopStats();
-    List<WorkOrder> GetWorkOrders();
+    List<WorkOrder> GetAllWorkOrders();
+    List<WorkOrderStats> GetWorkOrderStats();
+    List<ProductionTransactionStats> GetAllProductionTransactions();
 }
