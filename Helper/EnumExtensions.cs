@@ -4,7 +4,7 @@ namespace ArERP.Helper;
 
 public static class EnumExtensions
 {
-    public static string GetDisplayName(this Enum value)
+    public static string GetDisplayName(this System.Enum value)
     {
         if (value == null) return string.Empty;
 

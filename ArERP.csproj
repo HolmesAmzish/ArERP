@@ -31,7 +31,7 @@
     <Folder Include="Areas\Procurement\Repository\" />
     <Folder Include="Areas\Sales\Controller\" />
     <Folder Include="Areas\Sales\Repository\Impl\" />
-    <Folder Include="Models\Enum\" />
+    <Folder Include="Enum\" />
     <Folder Include="Views\Inventory\" />
   </ItemGroup>
 

@@ -144,7 +144,17 @@ public class ProductionSeedData
                 new Machine { Code = "MCH-007", Name = "涂装流水线", Status = MachineStatus.Idle, WorkshopId = 3 },
                 new Machine { Code = "MCH-008", Name = "电机测试台", Status = MachineStatus.Maintenance, WorkshopId = 2 },
                 new Machine { Code = "MCH-009", Name = "数控铣床", Status = MachineStatus.Running, WorkshopId = 1 },
-                new Machine { Code = "MCH-010", Name = "自动分拣系统", Status = MachineStatus.Idle, WorkshopId = 3 }
+                new Machine { Code = "MCH-010", Name = "自动分拣系统", Status = MachineStatus.Idle, WorkshopId = 3 },
+                new Machine { Code = "MCH-011", Name = "CNC加工中心", Status = MachineStatus.Running, WorkshopId = 2 },
+                new Machine { Code = "MCH-012", Name = "激光切割机", Status = MachineStatus.Idle, WorkshopId = 4 },
+                new Machine { Code = "MCH-013", Name = "注塑机", Status = MachineStatus.Maintenance, WorkshopId = 4 },
+                new Machine { Code = "MCH-014", Name = "冲床", Status = MachineStatus.Breakdown, WorkshopId = 5 },
+                new Machine { Code = "MCH-015", Name = "自动包装机", Status = MachineStatus.Running, WorkshopId = 6 },
+                new Machine { Code = "MCH-016", Name = "焊接机器人", Status = MachineStatus.Running, WorkshopId = 5 },
+                new Machine { Code = "MCH-017", Name = "涂装流水线", Status = MachineStatus.Idle, WorkshopId = 7 },
+                new Machine { Code = "MCH-018", Name = "电机测试台", Status = MachineStatus.Breakdown, WorkshopId = 8 },
+                new Machine { Code = "MCH-019", Name = "数控铣床", Status = MachineStatus.Running, WorkshopId = 5 },
+                new Machine { Code = "MCH-020", Name = "自动分拣系统", Status = MachineStatus.Idle, WorkshopId = 9 }
             );
             context.SaveChanges();
         }

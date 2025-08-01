@@ -17,13 +17,15 @@ public class DashboardService : IDashboardService
     private readonly IWorkshopRepository _workshopRepository;
     private readonly IWorkOrderService _workOrderService;
     private readonly ITransactionRepository _transactionRepository;
+    private readonly IMachineService _machineService;
 
     public DashboardService(
         IEmployeeRepository employeeRepository,
         IShiftRepository shiftRepository,
         IWorkshopRepository workshopRepository,
         IWorkOrderService workOrderService,
-        ITransactionRepository transactionRepository
+        ITransactionRepository transactionRepository,
+        IMachineService machineService
     )
     {
         this._employeeRepository = employeeRepository;
@@ -31,6 +33,7 @@ public class DashboardService : IDashboardService
         this._workshopRepository = workshopRepository;
         this._workOrderService = workOrderService;
         this._transactionRepository = transactionRepository;
+        this._machineService = machineService;
     }
 
     public List<EmployeeShiftStats> GetEmployeeShiftStats()
@@ -61,7 +64,8 @@ public class DashboardService : IDashboardService
         return allWorkshops;
     }
 
-    public List<WorkOrder> GetAllWorkOrders() => _workOrderService.GetAllWorkOrders();
+    public PagedResult<WorkOrder> GetWorkOrders(int pageIndex, int pageSize) =>
+        _workOrderService.GetPagedWorkOrders(pageIndex, pageSize);
 
     public List<WorkOrderStats> GetWorkOrderStats() => _workOrderService.GetWorkOrderStats();
     
@@ -102,4 +106,6 @@ public class DashboardService : IDashboardService
         // Console.WriteLine($"Result:{json.Substring(0, Math.Min(500, json.Length))}");
         return result;
     }
+
+    public List<MachineStats> GetMachineStats() => _machineService.GetMachineStats();
 }

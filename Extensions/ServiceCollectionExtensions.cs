@@ -8,6 +8,8 @@ using ArERP.Areas.Production.Repository;
 using ArERP.Areas.Production.Repository.Impl;
 using ArERP.Areas.Production.Service;
 using ArERP.Areas.Production.Service.Impl;
+using ArERP.Repository;
+using ArERP.Repository.Impl;
 using ArERP.Service;
 using ArERP.Service.Impl;
 
@@ -17,6 +19,9 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddAppRepositories(this IServiceCollection services)
     {
+        // System
+        services.AddScoped<ISystemLogRepository, SystemLogRepository>();
+        
         // HumanResource
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         services.AddScoped<IDerpartmentRepository, DepartmentRepository>();
@@ -35,17 +40,22 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IShiftRepository, ShiftRepository>();
         services.AddScoped<IWorkshopRepository, WorkshopRepository>();
         services.AddScoped<IWorkOrderRepository, WorkOrderRepository>();
+        services.AddScoped<IMachineRepository, MachineRepository>();
         return services;
     }
 
     public static IServiceCollection AddAppServices(this IServiceCollection services)
     {
+        // System
+        services.AddScoped<ISystemLogService, SystemLogService>();
+        
         // Inventory
         services.AddScoped<IInventoryBalanceService, InventoryBalanceService>();
         
         // Production
         services.AddScoped<IBomService, BomService>();
         services.AddScoped<IWorkOrderService, WorkOrderService>();
+        services.AddScoped<IMachineService, MachineService>();
         
         services.AddScoped<IDashboardService, DashboardService>();
         return services;
