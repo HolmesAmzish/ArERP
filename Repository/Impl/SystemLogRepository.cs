@@ -11,7 +11,11 @@ public class SystemLogRepository : ISystemLogRepository
     {
         this._context = context;
     }
-    
+
+    public List<SystemLog> GetAllSystemLogs() =>
+        _context.SystemLogs
+            .OrderByDescending(log => log.Id)
+            .ToList();
     public void AddLog(SystemLog log)
     {
         _context.SystemLogs.Add(log);

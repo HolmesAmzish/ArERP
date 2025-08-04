@@ -1,0 +1,42 @@
+@model IEnumerable<ArERP.Areas.Production.Models.Workshop>
+
+@{
+Layout = "Panel";
+}
+
+<div class="flex justify-between mb-4">
+    <h2 class="text-2xl">车间列表</h2>
+    <a asp-action="Create"
+       class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">新增车间</a>
+</div>
+
+<div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead>
+        <tr>
+            <th class="px-6 py-4 text-left font-semibold tracking-wider">ID</th>
+            <th class="px-6 py-4 text-left font-semibold tracking-wider">编号</th>
+            <th class="px-6 py-4 text-left font-semibold tracking-wider">名称</th>
+            <th class="px-6 py-4 text-left font-semibold tracking-wider">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+        <tr class="bg-white">
+            <td class="border-b border-gray-200 px-6 py-4">@item.Id</td>
+            <td class="border-b border-gray-200 px-6 py-4">@item.Code</td>
+            <td class="border-b border-gray-200 px-6 py-4">@item.Name</td>
+            <td class="border-b border-gray-200 px-6 py-4 space-x-2">
+                <a asp-area="Production" asp-action="Details" asp-route-id="@item.Id"
+                   class="text-blue-600 hover:underline">详情</a>
+                <a asp-action="Edit" asp-route-id="@item.Id"
+                   class="text-blue-600 hover:underline">编辑</a>
+                <a asp-action="Delete" asp-route-id="@item.Id"
+                   class="text-red-600 hover:underline">删除</a>
+            </td>
+        </tr>
+        }
+        </tbody>
+    </table>
+</div>

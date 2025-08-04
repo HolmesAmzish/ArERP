@@ -536,7 +536,7 @@ namespace ArERP.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ContactInfo")
+                    b.Property<string>("Contact")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -986,6 +986,9 @@ namespace ArERP.Migrations
 
                     b.Property<DateTime>("RecordTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("SourceAddress")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

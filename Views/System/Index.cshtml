@@ -1,0 +1,38 @@
+@model IEnumerable<ArERP.Models.SystemLog>
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="bg-white shadow-lg">
+    <div class="flex justify-between">
+        <h2 class="text-2xl p-6">系统日志</h2>
+    </div>
+
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead>
+            <tr>
+                <th class="px-6 py-4 text-left font-semibold tracking-wider">ID</th>
+                <th class="px-6 py-4 text-left font-semibold tracking-wider">记录时间</th>
+                <th class="px-6 py-4 text-left font-semibold tracking-wider">等级</th>
+                <th class="px-6 py-4 text-left font-semibold tracking-wider">IP</th>
+                <th class="px-6 py-4 text-left font-semibold tracking-wider">内容</th>
+                
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="bg-white">
+                    <td class="border-b border-gray-200 px-6 py-4">@item.Id</td>
+                    <td class="border-b border-gray-200 px-6 py-4 text-nowrap">@item.RecordTime</td>
+                    <td class="border-b border-gray-200 px-6 py-4">@item.Level</td>
+                    <td class="border-b border-gray-200 px-6 py-4">@item.SourceAddress</td>
+                    <td class="border-b border-gray-200 px-6 py-4">@item.Content</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

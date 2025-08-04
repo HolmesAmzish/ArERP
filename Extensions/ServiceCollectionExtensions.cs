@@ -48,6 +48,7 @@ public static class ServiceCollectionExtensions
     {
         // System
         services.AddScoped<ISystemLogService, SystemLogService>();
+        services.AddScoped<ISystemService, SystemService>();
         
         // Inventory
         services.AddScoped<IInventoryBalanceService, InventoryBalanceService>();
@@ -56,6 +57,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IBomService, BomService>();
         services.AddScoped<IWorkOrderService, WorkOrderService>();
         services.AddScoped<IMachineService, MachineService>();
+        services.AddScoped<IWorkshopService, WorkshopService>();
         
         services.AddScoped<IDashboardService, DashboardService>();
         return services;

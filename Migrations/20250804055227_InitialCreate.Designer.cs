@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArERP.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250728074843_UpdateShiftsTable")]
-    partial class UpdateShiftsTable
+    [Migration("20250804055227_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -128,11 +128,14 @@ namespace ArERP.Migrations
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
@@ -164,9 +167,14 @@ namespace ArERP.Migrations
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int?>("ShiftId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DepartmentId");
+
+                    b.HasIndex("ShiftId");
 
                     b.ToTable("Employees");
                 });
@@ -401,6 +409,9 @@ namespace ArERP.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("SourceId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
@@ -528,7 +539,7 @@ namespace ArERP.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ContactInfo")
+                    b.Property<string>("Contact")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -596,7 +607,7 @@ namespace ArERP.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("MachineCode")
+                    b.Property<string>("Code")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -752,6 +763,9 @@ namespace ArERP.Migrations
 
                     b.Property<int>("ProductItemId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("ProductionProcess")
+                        .HasColumnType("decimal(5,2)");
 
                     b.Property<decimal>("Quantity")
                         .HasColumnType("decimal(18,2)");
@@ -958,6 +972,32 @@ namespace ArERP.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("ArERP.Models.SystemLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("RecordTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SourceAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SystemLogs");
+                });
+
             modelBuilder.Entity("ArERP.Models.UserRole", b =>
                 {
                     b.Property<int>("Id")
@@ -1000,7 +1040,13 @@ namespace ArERP.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ArERP.Areas.Production.Models.Shift", "Shift")
+                        .WithMany()
+                        .HasForeignKey("ShiftId");
+
                     b.Navigation("Department");
+
+                    b.Navigation("Shift");
                 });
 
             modelBuilder.Entity("ArERP.Areas.HumanResource.Models.EmployeeApplication", b =>

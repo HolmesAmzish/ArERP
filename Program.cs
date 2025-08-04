@@ -7,9 +7,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// DI Setting
 builder.Services.AddAppRepositories();
 builder.Services.AddAppServices();
 builder.Services.AddControllersWithViews();
+
+// Log Setting
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddProvider(new SystemLogLoggerProvider(builder.Services.BuildServiceProvider()));
+builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.None);
 
 var app = builder.Build();
 
@@ -32,7 +39,7 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "/{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 // app.MapGet("/hello/{name:alpha?}", (string? name) => $"Hello, {name ?? "World"}!");
 

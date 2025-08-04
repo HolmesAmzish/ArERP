@@ -2,9 +2,7 @@ using ArERP.Models;
 
 namespace ArERP.Service;
 
-public interface ISystemLogService
+public interface ISystemService
 {
     List<SystemLog> GetAllSystemLogs();
-    void Info(string content);
-    
 }

@@ -7,22 +7,24 @@ namespace ArERP.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ISystemLogService _systemLogService;
         private readonly ILogger<HomeController> _logger;
         private readonly IDashboardService _dashboardService;
 
         public HomeController(
-            ISystemLogService systemLogService,
             ILogger<HomeController> logger,
             IDashboardService dashboardService
         )
         {
-            this._systemLogService = systemLogService;
             this._logger = logger;
             this._dashboardService = dashboardService;
         }
 
-        public IActionResult Index() => View();
+        public IActionResult Index()
+        {
+            var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+            _logger.LogInformation("{ipAddress} visited Homepage", ipAddress);
+            return View();
+        }
         
         // GET: /Home/Dashboard
         public IActionResult Dashboard(int pageIndex = 1, int pageSize = 10)
@@ -39,7 +41,8 @@ namespace ArERP.Controllers
             ViewBag.workOrderStats = _dashboardService.GetWorkOrderStats();
             ViewBag.productionStats = _dashboardService.GetAllProductionTransactions();
             ViewBag.machineStats = _dashboardService.GetMachineStats();
-            _systemLogService.Info("Home/Index Loaded");
+            var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+            _logger.LogInformation("{ipAddress} visited Dashboard page", ipAddress);
             return View();
         }
 

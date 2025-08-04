@@ -1,3 +1,4 @@
+using System.Net;
 using ArERP.Models;
 using ArERP.Repository;
 
@@ -9,12 +10,21 @@ public class SystemLogService : ISystemLogService
 
     public SystemLogService(ISystemLogRepository systemLogRepository)
     {
-        this._systemLogRepository = systemLogRepository;
+        _systemLogRepository = systemLogRepository;
     }
+
+    public List<SystemLog> GetAllSystemLogs() => _systemLogRepository.GetAllSystemLogs();
 
     public void Info(string content)
     {
-        var log = new SystemLog { Content = content, Level = LogLevel.Information, RecordTime = DateTime.Now };
+
+        var log = new SystemLog
+        {
+            Content = content,
+            Level = LogLevel.Information,
+            RecordTime = DateTime.Now
+        };
+
         _systemLogRepository.AddLog(log);
     }
 }

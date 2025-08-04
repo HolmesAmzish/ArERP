@@ -12,5 +12,5 @@ public class Supplier
     
     public string Name { get; set; }
     
-    public string ContactInfo { get; set; }
+    public string Contact { get; set; }
 }

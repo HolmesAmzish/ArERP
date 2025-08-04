@@ -10,7 +10,7 @@ public class SystemLog
     
     [DataType(DataType.DateTime)]
     public DateTime RecordTime { get; set; }
-    
+    public string? SourceAddress { get; set; }
     public string Content { get; set; }
     public LogLevel Level { get; set; }
 }
