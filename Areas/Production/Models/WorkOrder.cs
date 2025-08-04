@@ -9,15 +9,21 @@ public class WorkOrder
 {
     [Key] [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
+
+    [Required]
+    public string OrderNumber { get; set; } = null!;
     
-    public string OrderNumber { get; set; }
-    
+    [Required]
     public int ProductItemId { get; set; }
-    [ForeignKey("ProductItemId")]
-    public Item Product { get; set; }
+
+    [Required] [ForeignKey("ProductItemId")]
+    public Item Product { get; set; } = null!;
     
-    [Column(TypeName = "decimal(18,2)")]
+    [Required] [Column(TypeName = "decimal(18,2)")]
     public decimal Quantity { get; set; }
+    
+    [Column(TypeName = "decimal(5,2)")]
+    public decimal ProductionProcess { get; set; }
     public DateTime ScheduledDate { get; set; }
     public OrderStatus Status { get; set; }
 }

@@ -4,3 +4,4 @@
 // Write your JavaScript code.
 
 import * as echarts from 'echarts';
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";

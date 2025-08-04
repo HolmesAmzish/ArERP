@@ -22,8 +22,10 @@ namespace ArERP.Controllers
             this._dashboardService = dashboardService;
         }
 
-        // GET: /Home/Index
-        public IActionResult Index(int pageIndex = 1, int pageSize = 10)
+        public IActionResult Index() => View();
+        
+        // GET: /Home/Dashboard
+        public IActionResult Dashboard(int pageIndex = 1, int pageSize = 10)
         {
             ViewBag.shiftStats = _dashboardService.GetEmployeeShiftStats();
             ViewBag.workshopStats = _dashboardService.GetWorkshopStats();
