@@ -14,4 +14,10 @@ public class WorkOrderController : Controller
     }
 
     public IActionResult Index() => View(_workOrderService.GetAllWorkOrders());
+
+    [HttpGet] [Route("api/production/workorders")]
+    public IActionResult GetAllWorkOrders() => Ok(_workOrderService.GetAllWorkOrders());
+
+    // public IActionResult GetPagedWorkOrders([FromQuery] int pageIndex, [FromQuery] int pageSize) =>
+    // Ok(_workOrderService.GetPagedWorkOrders(pageIndex, pageSize));
 }

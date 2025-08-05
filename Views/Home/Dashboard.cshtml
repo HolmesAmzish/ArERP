@@ -43,6 +43,25 @@
                     <div class="text-2xl text-blue-500 font-bold" id="plannedCount">0</div>
                     <div class="text-gray-500">已计划</div>
                 </div>
+            <div class="relative flex items-center px-6 py-4 bg-white mt-auto mb-2">
+                <div class="absolute left-1/2 transform -translate-x-1/2 flex space-x-2">
+                    <a href="/Home/Dashboard?pageIndex=@(ViewBag.PageIndex - 1)&pageSize=@ViewBag.PageSize"
+                       class="px-3 py-1 border rounded text-gray-700 hover:bg-gray-100 @(ViewBag.PageIndex <= 1 ? "opacity-50 cursor-not-allowed pointer-events-none" : "")">
+                        上一页
+                    </a>
+
+                    <a href="/Home/Dashboard?pageIndex=@(ViewBag.PageIndex + 1)&pageSize=@ViewBag.PageSize"
+                       class="px-3 py-1 border rounded text-gray-700 hover:bg-gray-100 @((ViewBag.PageIndex * ViewBag.PageSize >= ViewBag.WorkOrdersTotalCount) ? "opacity-50 cursor-not-allowed pointer-events-none" : "")">
+                        下一页
+                    </a>
+                </div>
+                <div class="ml-auto text-sm text-gray-700">
+                    显示 <span class="font-medium">@((ViewBag.PageIndex - 1) * ViewBag.PageSize + 1)</span> 到
+                    <span class="font-medium">@Math.Min(ViewBag.PageIndex * ViewBag.PageSize, ViewBag.WorkOrdersTotalCount)</span> 条，共
+                    <span class="font-medium">@ViewBag.WorkOrdersTotalCount</span> 条工单
+                </div>
+
+            </div>
                 <div class="bg-white px-4">
                     @* <div class="w-4 h-4 rounded-full bg-yellow-400 mb-2"></div> *@
                     <div class="text-2xl text-yellow-400 font-bold" id="inProgressCount">0</div>

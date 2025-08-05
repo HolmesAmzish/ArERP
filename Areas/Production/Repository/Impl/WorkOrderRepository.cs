@@ -30,6 +30,7 @@ public class WorkOrderRepository : IWorkOrderRepository
             .OrderBy(m => m.Id)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
+            .Include(wo => wo.Product)
             .ToList();
 
         return new PagedResult<WorkOrder>

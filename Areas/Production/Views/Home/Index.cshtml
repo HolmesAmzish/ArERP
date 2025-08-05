@@ -1,3 +1,280 @@
 @{
     Layout = "Panel";
 }
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>任务时间安排</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Tailwind CDN (optional styling) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div id="root" class="font-sans"></div>
+
+<!-- Babel for JSX support -->
+<script src="https://unpkg.com/@@babel/standalone/babel.min.js"></script>
+<!-- es-module-shims for import maps -->
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"></script>
+
+<!-- Import map -->
+<script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react?dev",
+        "react-dom/client": "https://esm.sh/react-dom/client?dev",
+        "@@hello-pangea/dnd": "https://esm.sh/@@hello-pangea/dnd?dev",
+          "axios": "https://cdn.jsdelivr.net/npm/axios@1.6.8/+esm"
+        }
+      }
+</script>
+
+<!-- App Code -->
+<script type="text/babel" data-type="module">
+    import React, { useEffect, useState, useRef, useCallback } from "react";
+    import { createRoot } from "react-dom/client";
+    import {
+        DragDropContext,
+        Droppable,
+        Draggable
+    } from "@@hello-pangea/dnd";
+    import axios from "axios";
+
+    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+
+    const initialSchedule = {
+        taskPool: [],
+        Monday: [],
+        Tuesday: [],
+        Wednesday: [],
+        Thursday: [],
+        Friday: [],
+    };
+
+    const AnimatedCounter = ({ value }) => {
+        const [displayValue, setDisplayValue] = useState(value);
+        const requestRef = useRef(null);
+        const previousTimeRef = useRef(undefined);
+
+        const animate = useCallback(
+            (time) => {
+                if (previousTimeRef.current === undefined) {
+                    previousTimeRef.current = time;
+                }
+                const deltaTime = time - previousTimeRef.current;
+                if (deltaTime > 16) {
+                    setDisplayValue((prev) => {
+                        const diff = value - prev;
+                        if (Math.abs(diff) < 0.5) return value;
+                        return prev + diff * 0.2;
+                    });
+                    previousTimeRef.current = time;
+                }
+                requestRef.current = requestAnimationFrame(animate);
+            },
+            [value]
+        );
+
+        useEffect(() => {
+            requestRef.current = requestAnimationFrame(animate);
+            return () => {
+                if (requestRef.current) cancelAnimationFrame(requestRef.current);
+            };
+        }, [animate]);
+
+        return <>{Math.round(displayValue)}%</>;
+    };
+
+    const App = () => {
+        const [tasks, setTasks] = useState({});
+        const [schedule, setSchedule] = useState(initialSchedule);
+        const [overloads, setOverloads] = useState({
+            Monday: 0,
+            Tuesday: 0,
+            Wednesday: 0,
+            Thursday: 0,
+            Friday: 0,
+        });
+
+        useEffect(() => {
+            axios.get("/api/production/workorders")
+                .then((response) => {
+                    const workorders = response.data;
+
+                    const newTasks = {};
+                    const taskPoolIds = [];
+
+                    workorders.forEach((item) => {
+                        const taskId = `${item.id}`;
+                        newTasks[taskId] = {
+                            id: item.id,
+                            content: (
+                                <div className="flex items-center flex-col md:flex-row md:flex-nowrap items-start md:items-center">
+                                    <span className="md:mr-2">{item.orderNumber}</span>
+                                    <span className="text-gray-600">{item.product?.name || "未知产品"}</span>
+                                </div>
+                            ),
+                        };
+                        taskPoolIds.push(taskId);
+                    });
+
+                    setTasks(newTasks);
+                    setSchedule((prev) => ({ ...prev, taskPool: taskPoolIds }));
+                })
+                .catch((error) => {
+                    console.error("获取工单数据失败:", error);
+                    // 这里可以加提示或者备用逻辑
+                });
+        }, []);
+
+
+        const onDragEnd = (result) => {
+            const { source, destination } = result;
+            if (!destination) return;
+
+            const sourceList = Array.from(schedule[source.droppableId] || []);
+            const destList = Array.from(schedule[destination.droppableId] || []);
+
+            if (source.droppableId === destination.droppableId) {
+                const [moved] = sourceList.splice(source.index, 1);
+                sourceList.splice(destination.index, 0, moved);
+
+                setSchedule((prev) => ({
+                    ...prev,
+                    [source.droppableId]: sourceList,
+                }));
+            } else {
+                const [moved] = sourceList.splice(source.index, 1);
+                destList.splice(destination.index, 0, moved);
+
+                setSchedule((prev) => ({
+                    ...prev,
+                    [source.droppableId]: sourceList,
+                    [destination.droppableId]: destList,
+                }));
+
+                if (days.includes(source.droppableId)) {
+                    setOverloads((prev) => ({
+                        ...prev,
+                        [source.droppableId]: Math.max(prev[source.droppableId] - 20, 0),
+                    }));
+                }
+                if (days.includes(destination.droppableId)) {
+                    setOverloads((prev) => ({
+                        ...prev,
+                        [destination.droppableId]: prev[destination.droppableId] + 20,
+                    }));
+                }
+            }
+        };
+
+        const daysMap = {
+            Monday: "星期一",
+            Tuesday: "星期二",
+            Wednesday: "星期三",
+            Thursday: "星期四",
+            Friday: "星期五",
+        };
+        const days = Object.keys(daysMap);
+        
+        return (
+            <div className="p-6 font-sans">
+                <div className="flex justify-between items-center mb-6">
+                    <h1 className="text-2xl font-bold">任务时间安排</h1>
+                </div>
+                <DragDropContext onDragEnd={onDragEnd}>
+                    <div className="grid grid-cols-6 gap-4">
+                        <div className="bg-gray-200 p-4 rounded shadow-lg min-h-[150px]">
+                            <h2 className="font-semibold text-lg mb-2">工单列表</h2>
+                            <Droppable droppableId="taskPool">
+                                {(provided) => (
+                                    <div
+                                        ref={provided.innerRef}
+                                        {...provided.droppableProps}
+                                        style={{ minHeight: 100 }}
+                                    >
+                                        {schedule.taskPool.map((taskId, index) => (
+                                            <Draggable
+                                                key={taskId}
+                                                draggableId={taskId}
+                                                index={index}
+                                            >
+                                                {(provided) => (
+                                                    <div
+                                                        className="bg-white p-2 mb-2 rounded border"
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                    >
+                                                        {tasks[taskId]?.content}
+                                                    </div>
+                                                )}
+                                            </Draggable>
+                                        ))}
+                                        {provided.placeholder}
+                                    </div>
+                                )}
+                            </Droppable>
+                        </div>
+
+                        {days.map((day) => (
+                            <div
+                                key={day}
+                                className="bg-gray-200 p-4 rounded shadow-lg min-h-[150px]"
+                            >
+                                <div className="flex justify-between items-center mb-2">
+                                    <h2 className="font-semibold">{daysMap[day]}</h2>
+                                    <div className="text-gray-700">
+                                        <AnimatedCounter value={overloads[day]} /> 负载
+                                    </div>
+                                </div>
+                                <div className="w-full bg-gray-300 rounded-full h-2 mb-2">
+                                    <div
+                                        className="bg-blue-500 h-2 rounded-full transition-all duration-300 ease-out"
+                                        style={{
+                                            width: `${Math.min(100, overloads[day])}%`,
+                                        }}
+                                    ></div>
+                                </div>
+                                <Droppable droppableId={day}>
+                                    {(provided) => (
+                                        <div
+                                            ref={provided.innerRef}
+                                            {...provided.droppableProps}
+                                            className="min-h-[450px]"
+                                        >
+                                            {schedule[day].map((taskId, index) => (
+                                                <Draggable
+                                                    key={taskId}
+                                                    draggableId={taskId}
+                                                    index={index}
+                                                >
+                                                    {(provided) => (
+                                                        <div
+                                                            className="bg-white p-2 mb-2 rounded border"
+                                                            ref={provided.innerRef}
+                                                            {...provided.draggableProps}
+                                                            {...provided.dragHandleProps}
+                                                        >
+                                                            {tasks[taskId]?.content}
+                                                        </div>
+                                                    )}
+                                                </Draggable>
+                                            ))}
+                                            {provided.placeholder}
+                                        </div>
+                                    )}
+                                </Droppable>
+                            </div>
+                        ))}
+                    </div>
+                </DragDropContext>
+            </div>
+        );
+    };
+
+    const root = createRoot(document.getElementById("root"));
+    root.render(<App />);
+</script>
+</body>
+</html>
