@@ -2,6 +2,7 @@ using ArERP.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using ArERP.Service;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ArERP.Controllers
 {
@@ -25,7 +26,7 @@ namespace ArERP.Controllers
             _logger.LogInformation("{ipAddress} visited Homepage", ipAddress);
             return View();
         }
-        
+
         // GET: /Home/Dashboard
         public IActionResult Dashboard(int pageIndex = 1, int pageSize = 10)
         {
@@ -58,6 +59,15 @@ namespace ArERP.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [Authorize]
+        [Route("api/")]
+        [HttpGet("profile")]
+        public IActionResult GetProfile()
+        {
+            var username = User.Identity.Name; // 从 JWT 中提取
+            return Ok(new { username });
         }
     }
 }

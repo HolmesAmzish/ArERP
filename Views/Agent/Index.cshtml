@@ -1,0 +1,38 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.SemanticKernel.ChatCompletion
+@{
+    ViewBag.Title = "Copilot Chat";
+    var history = ViewBag.History as Microsoft.SemanticKernel.ChatCompletion.ChatHistory;
+}
+
+<div class="max-w-2xl mx-auto p-6">
+    <h2 class="text-2xl font-bold mb-4 text-gray-800">Copilot Chat</h2>
+
+    <form method="post" asp-controller="Agent" asp-action="Ask" class="flex flex-col space-y-4">
+        <input type="text" name="userInput" class="border rounded-lg p-3 mb-4 w-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="输入你的问题..." required />
+        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg w-full">发送</button>
+    </form>
+
+    <hr class="my-6 border-gray-300" />
+
+    <div class="space-y-4">
+        @if (history != null)
+        {
+            foreach (var message in history)
+            {
+                if (message.Role == AuthorRole.User)
+                {
+                    <div class="bg-blue-100 text-blue-900 p-4 rounded-lg shadow">
+                        <strong>你:</strong> @message.Content
+                    </div>
+                }
+                else
+                {
+                    <div class="bg-green-100 text-green-900 p-4 rounded-lg shadow">
+                        <strong>Copilot:</strong> @message.Content
+                    </div>
+                }
+            }
+        }
+    </div>
+</div>

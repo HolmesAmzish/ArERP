@@ -21,6 +21,7 @@ public static class ServiceCollectionExtensions
     {
         // System
         services.AddScoped<ISystemLogRepository, SystemLogRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
         
         // HumanResource
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
@@ -41,6 +42,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IWorkshopRepository, WorkshopRepository>();
         services.AddScoped<IWorkOrderRepository, WorkOrderRepository>();
         services.AddScoped<IMachineRepository, MachineRepository>();
+        
         return services;
     }
 
@@ -49,6 +51,9 @@ public static class ServiceCollectionExtensions
         // System
         services.AddScoped<ISystemLogService, SystemLogService>();
         services.AddScoped<ISystemService, SystemService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IDashboardService, DashboardService>();
+        services.AddScoped<IAgentService, AgentService>();        
         
         // Inventory
         services.AddScoped<IInventoryBalanceService, InventoryBalanceService>();
@@ -59,7 +64,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IMachineService, MachineService>();
         services.AddScoped<IWorkshopService, WorkshopService>();
         
-        services.AddScoped<IDashboardService, DashboardService>();
+
+        
         return services;
     }
 }

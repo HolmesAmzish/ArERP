@@ -18,12 +18,12 @@ Layout = "Panel";
                 <th class="px-6 py-3 text-left tracking-wider">物品名称</th>
                 <th class="px-6 py-3 text-left tracking-wider">仓库</th>
                 <th class="px-6 py-3 text-left tracking-wider">位置</th>
-                <th class="px-6 py-3 text-left tracking-wider">库存数量</th>
+                <th class="px-6 py-3 text-right tracking-wider">库存数量</th>
                 <th class="px-6 py-3 text-left tracking-wider">单位</th>
                 <th class="px-6 py-3 text-left tracking-wider">最后更新</th>
             </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
+            <tbody class="bg-white">
             <!-- 数据将通过JavaScript动态填充 -->
             </tbody>
         </table>
@@ -65,7 +65,7 @@ Layout = "Panel";
                     <td class="px-6 py-4">${item.item?.name || 'N/A'}</td>
                     <td class="px-6 py-4">${item.warehouse?.name || 'N/A'}</td>
                     <td class="px-6 py-4">${item.warehouse?.location || 'N/A'}</td>
-                    <td class="px-6 py-4">${parseFloat(item.quantity).toFixed(2)}</td>
+                    <td class="px-6 py-4 text-right">${parseFloat(item.quantity).toFixed(2)}</td>
                     <td class="px-6 py-4">${item.item?.unit || ''}</td>
                     <td class="px-6 py-4">${new Date(item.lastUpdated).toLocaleString()}</td>
                 `;
