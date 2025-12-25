@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "入职申请审批";
-    Layout = "_Layout";
+    Layout = "Panel";
 }
 
 <h2 class="mb-4">入职申请审批</h2>
@@ -33,7 +33,7 @@
                 <dd class="text-gray-900">@Model.Email</dd>
 
                 <dt class="font-medium text-gray-500">部门</dt>
-                <dd class="text-gray-900">@Model.DepartmentId</dd> <!-- 如有部门名称可替换 -->
+                <dd class="text-gray-900">@Model.Department?.DepartmentName</dd>
 
                 <dt class="font-medium text-gray-500">申请时间</dt>
                 <dd class="text-gray-900">@Model.ApplicationDate.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</dd>
@@ -80,7 +80,3 @@
         </div>
     </div>
 </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

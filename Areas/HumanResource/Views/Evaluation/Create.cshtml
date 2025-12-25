@@ -2,118 +2,112 @@
 
 @{
     ViewData["Title"] = "新增考核记录";
-    Layout = "_Layout";
+    Layout = "Panel";
 }
 
-<h2>新增考核记录</h2>
+<h2 class="text-2xl font-bold mb-4">新增考核记录</h2>
 
-<hr />
-<div class="row">
-    <div class="col-md-12">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label asp-for="DocumentNumber" class="control-label"></label>
-                    <input asp-for="DocumentNumber" class="form-control" />
-                    <span asp-validation-for="DocumentNumber" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-4">
-                    <label asp-for="EvaluationDate" class="control-label"></label>
-                    <input asp-for="EvaluationDate" type="date" class="form-control" />
-                    <span asp-validation-for="EvaluationDate" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-4">
-                    <label asp-for="Operator" class="control-label"></label>
-                    <input asp-for="Operator" class="form-control" />
-                    <span asp-validation-for="Operator" class="text-danger"></span>
-                </div>
+<div class="max-w-4xl">
+    <form asp-action="Create" class="space-y-4">
+        <div asp-validation-summary="ModelOnly" class="text-red-600"></div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+                <label asp-for="DocumentNumber" class="block text-sm font-medium text-gray-700"></label>
+                <input asp-for="DocumentNumber" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+                <span asp-validation-for="DocumentNumber" class="text-red-600 text-sm"></span>
             </div>
-
-            <div class="form-group">
-                <label asp-for="Remarks" class="control-label"></label>
-                <textarea asp-for="Remarks" class="form-control" rows="3"></textarea>
-                <span asp-validation-for="Remarks" class="text-danger"></span>
+            <div>
+                <label asp-for="EvaluationDate" class="block text-sm font-medium text-gray-700"></label>
+                <input asp-for="EvaluationDate" type="date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+                <span asp-validation-for="EvaluationDate" class="text-red-600 text-sm"></span>
             </div>
+            <div>
+                <label asp-for="Operator" class="block text-sm font-medium text-gray-700"></label>
+                <input asp-for="Operator" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+                <span asp-validation-for="Operator" class="text-red-600 text-sm"></span>
+            </div>
+        </div>
 
-            <h4>考核明细</h4>
-            <table class="table" id="detailsTable">
-                <thead>
+        <div>
+            <label asp-for="Remarks" class="block text-sm font-medium text-gray-700"></label>
+            <textarea asp-for="Remarks" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+            <span asp-validation-for="Remarks" class="text-red-600 text-sm"></span>
+        </div>
+
+        <h4 class="text-lg font-semibold">考核明细</h4>
+        <table class="min-w-full divide-y divide-gray-200" id="detailsTable">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">员工</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">工作表现分</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">工作质量分</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">备注</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @for (int i = 0; i < (Model.Details?.Count ?? 0); i++)
+                {
                     <tr>
-                        <th>员工</th>
-                        <th>工作表现分</th>
-                        <th>工作质量分</th>
-                        <th>备注</th>
-                        <th></th>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <select asp-for="Details[i].EmployeeId" asp-items="ViewBag.Employees" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="">-- 选择员工 --</option>
+                            </select>
+                            <span asp-validation-for="Details[i].EmployeeId" class="text-red-600 text-sm"></span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <input asp-for="Details[i].PerformanceScore" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+                            <span asp-validation-for="Details[i].PerformanceScore" class="text-red-600 text-sm"></span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <input asp-for="Details[i].QualityScore" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+                            <span asp-validation-for="Details[i].QualityScore" class="text-red-600 text-sm"></span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <input asp-for="Details[i].DetailRemarks" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+                            <span asp-validation-for="Details[i].DetailRemarks" class="text-red-600 text-sm"></span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <button type="button" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700" onclick="removeDetail(this)">删除</button>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Details.Count; i++)
-                    {
-                        <tr>
-                            <td>
-                                <select asp-for="Details[i].EmployeeId" asp-items="ViewBag.Employees" class="form-control">
-                                    <option value="">-- 选择员工 --</option>
-                                </select>
-                                <span asp-validation-for="Details[i].EmployeeId" class="text-danger"></span>
-                            </td>
-                            <td>
-                                <input asp-for="Details[i].PerformanceScore" class="form-control" />
-                                <span asp-validation-for="Details[i].PerformanceScore" class="text-danger"></span>
-                            </td>
-                            <td>
-                                <input asp-for="Details[i].QualityScore" class="form-control" />
-                                <span asp-validation-for="Details[i].QualityScore" class="text-danger"></span>
-                            </td>
-                            <td>
-                                <input asp-for="Details[i].DetailRemarks" class="form-control" />
-                                <span asp-validation-for="Details[i].DetailRemarks" class="text-danger"></span>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-danger" onclick="removeDetail(this)">删除</button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                }
+            </tbody>
+        </table>
 
-            <div class="form-group mt-3">
-                <button type="button" class="btn btn-primary" onclick="addDetail()">添加明细</button>
-                <input type="submit" value="保存" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">返回列表</a>
-            </div>
-        </form>
-    </div>
+        <div class="mt-4 flex space-x-2">
+            <button type="button" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700" onclick="addDetail()">添加明细</button>
+            <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">保存</button>
+            <a asp-action="Index" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">返回列表</a>
+        </div>
+    </form>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-        function addDetail() {
-            const index = document.querySelectorAll('#detailsTable tbody tr').length;
-            const html = `
-                <tr>
-                    <td>
-                        <select name="Details[${index}].EmployeeId" class="form-control">
-                            <option value="">-- 选择员工 --</option>
-                            @foreach (var item in ViewBag.Employees as SelectList)
-                            {
-                                <option value="@item.Value">@item.Text</option>
-                            }
-                        </select>
-                    </td>
-                    <td><input name="Details[${index}].PerformanceScore" class="form-control" /></td>
-                    <td><input name="Details[${index}].QualityScore" class="form-control" /></td>
-                    <td><input name="Details[${index}].DetailRemarks" class="form-control" /></td>
-                    <td><button type="button" class="btn btn-danger" onclick="removeDetail(this)">删除</button></td>
-                </tr>`;
-            document.querySelector('#detailsTable tbody').insertAdjacentHTML('beforeend', html);
-        }
+<script>
+    function addDetail() {
+        const index = document.querySelectorAll('#detailsTable tbody tr').length;
+        const html = `
+            <tr class="bg-white divide-y divide-gray-200">
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <select name="Details[${index}].EmployeeId" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="">-- 选择员工 --</option>
+                        @foreach (var item in ViewBag.Employees as SelectList)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap"><input name="Details[${index}].PerformanceScore" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" /></td>
+                <td class="px-6 py-4 whitespace-nowrap"><input name="Details[${index}].QualityScore" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" /></td>
+                <td class="px-6 py-4 whitespace-nowrap"><input name="Details[${index}].DetailRemarks" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" /></td>
+                <td class="px-6 py-4 whitespace-nowrap"><button type="button" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700" onclick="removeDetail(this)">删除</button></td>
+            </tr>`;
+        document.querySelector('#detailsTable tbody').insertAdjacentHTML('beforeend', html);
+    }
 
-        function removeDetail(button) {
-            const row = button.closest('tr');
-            row.remove();
-        }
-    </script>
-}
+    function removeDetail(button) {
+        const row = button.closest('tr');
+        row.remove();
+    }
+</script>

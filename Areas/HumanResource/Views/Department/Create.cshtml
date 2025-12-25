@@ -4,13 +4,18 @@
     Layout = "Panel";
 }
 
-<h2 class="text-2xl mb-4">添加部门</h2>
+<h2 class="text-2xl font-bold mb-4">添加部门</h2>
 
-<form class="flex justify-between" asp-action="Create" method="post">
-    <div>
-        <lable asp-for="DepartmentName">部门名称</lable>
-        <input asp-for="DepartmentName" class="border" />
-        <span asp-asp-validation-for="DepartmentName" class="text-red-500"></span>
-    </div>
-    <button type="submit" class="py-1 px-4 text-white bg-blue-500 hover:bg-blue-600 rounded">确定</button>
-</form>
+<div class="max-w-md">
+    <form asp-action="Create" class="space-y-4">
+        <div asp-validation-summary="ModelOnly" class="text-red-600"></div>
+        <div>
+            <label asp-for="DepartmentName" class="block text-sm font-medium text-gray-700"></label>
+            <input asp-for="DepartmentName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+            <span asp-validation-for="DepartmentName" class="text-red-600 text-sm"></span>
+        </div>
+        <div>
+            <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">确定</button>
+        </div>
+    </form>
+</div>

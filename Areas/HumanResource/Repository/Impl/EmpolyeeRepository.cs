@@ -23,8 +23,9 @@ public class EmployeeRepository : IEmployeeRepository
         _context.SaveChanges();
     }
 
-    public Employee? GetEmployeeById(int id) => 
+    public Employee? GetEmployeeById(int id) =>
         _context.Employees
+            .Include(e => e.Department)
             .FirstOrDefault(m => m.Id == id);
 
     public void UpdateEmployee(Employee employee)

@@ -34,7 +34,7 @@
                     <td class="px-4 py-2">@item.Phone</td>
                     <td class="px-4 py-2">@item.Department.DepartmentName</td>
                     <td class="px-4 py-2">@item.Position</td>
-                    <td class="px-4 py-2">@item.IsActive</td>
+                    <td class="px-4 py-2">@(item.IsActive ? "在职" : "离职")</td>
                     <td class="px-4 py-2">
                         <a asp-action="Details" asp-route-id="@item.Id" class="text-blue-600 hover:underline">详情</a>
                     </td>

@@ -2,97 +2,88 @@
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "_Layout";
+    Layout = "Panel";
 }
 
 @{
     var departments = ViewBag.Departments as List<ArERP.Areas.HumanResource.Models.Department>;
 }
 
-<h1>创建入职申请</h1>
+<h1 class="text-2xl font-bold mb-4">创建入职申请</h1>
 
-<h4>员工入职申请</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<h4 class="text-lg font-semibold mb-4">员工入职申请</h4>
+<div class="max-w-md">
+    <form asp-action="Create" class="space-y-4">
+        <div asp-validation-summary="ModelOnly" class="text-red-600"></div>
 
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
+        <div>
+            <label asp-for="Name" class="block text-sm font-medium text-gray-700"></label>
+            <input asp-for="Name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+            <span asp-validation-for="Name" class="text-red-600 text-sm"></span>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
-                <select asp-for="Gender" class="form-control">
-                    <option value="male">男</option>
-                    <option value="female">女</option>
-                </select>
-                <span asp-validation-for="Gender" class="text-danger"></span>
-            </div>
+        <div>
+            <label asp-for="Gender" class="block text-sm font-medium text-gray-700"></label>
+            <select asp-for="Gender" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                <option value="M">男</option>
+                <option value="F">女</option>
+            </select>
+            <span asp-validation-for="Gender" class="text-red-600 text-sm"></span>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" type="date" class="form-control" />
-                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-            </div>
+        <div>
+            <label asp-for="DateOfBirth" class="block text-sm font-medium text-gray-700"></label>
+            <input asp-for="DateOfBirth" type="date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+            <span asp-validation-for="DateOfBirth" class="text-red-600 text-sm"></span>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="NationalId" class="control-label"></label>
-                <input asp-for="NationalId" class="form-control" />
-                <span asp-validation-for="NationalId" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
+        <div>
+            <label asp-for="NationalId" class="block text-sm font-medium text-gray-700"></label>
+            <input asp-for="NationalId" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+            <span asp-validation-for="NationalId" class="text-red-600 text-sm"></span>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
+        <div>
+            <label asp-for="Address" class="block text-sm font-medium text-gray-700"></label>
+            <input asp-for="Address" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+            <span asp-validation-for="Address" class="text-red-600 text-sm"></span>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DepartmentId" class="control-label">部门</label>
-                <select asp-for="DepartmentId" asp-items="@(new SelectList(departments, "Id", "DepartmentName"))"
-                        class="form-control">
-                    <option value="">-- 请选择部门 --</option>
-                </select>
-                <span asp-validation-for="DepartmentId" class="text-danger"></span>
-            </div>
+        <div>
+            <label asp-for="Phone" class="block text-sm font-medium text-gray-700"></label>
+            <input asp-for="Phone" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+            <span asp-validation-for="Phone" class="text-red-600 text-sm"></span>
+        </div>
 
-            <div class="form-group">
-                <input type="submit" value="创建" class="btn btn-primary" />
-            </div>
-        </form>
-        
-        @if (ViewData["ErrorMessage"] != null)
-        {
-            <div class="alert alert-warning">
-                @ViewData["ErrorMessage"]
-            </div>
-        }
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div>
+            <label asp-for="Email" class="block text-sm font-medium text-gray-700"></label>
+            <input asp-for="Email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+            <span asp-validation-for="Email" class="text-red-600 text-sm"></span>
+        </div>
 
-    </div>
+        <div>
+            <label asp-for="DepartmentId" class="block text-sm font-medium text-gray-700">部门</label>
+            <select asp-for="DepartmentId" asp-items="@(new SelectList(departments, "Id", "DepartmentName"))"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                <option value="">-- 请选择部门 --</option>
+            </select>
+            <span asp-validation-for="DepartmentId" class="text-red-600 text-sm"></span>
+        </div>
+
+        <div>
+            <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">创建</button>
+        </div>
+    </form>
+
+    @if (ViewData["ErrorMessage"] != null)
+    {
+        <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mt-4">
+            @ViewData["ErrorMessage"]
+        </div>
+    }
+    <div asp-validation-summary="ModelOnly" class="text-red-600"></div>
 </div>
 
 <div>
     <a asp-action="Index">返回列表</a>
 </div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}

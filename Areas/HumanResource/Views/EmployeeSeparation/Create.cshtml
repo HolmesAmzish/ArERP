@@ -3,55 +3,46 @@
 @{
     ViewData["Title"] = "Create";
     var employees = ViewBag.Employees as List<ArERP.Areas.HumanResource.Models.Employee>;
-    Layout = "_Layout";
+    Layout = "Panel";
 }
 
-<h1>创建离职申请</h1>
+<h1 class="text-2xl font-bold mb-4">创建离职申请</h1>
 
-<h4>员工离职申请</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<h4 class="text-lg font-semibold mb-4">员工离职申请</h4>
+<div class="max-w-md">
+    <form asp-action="Create" class="space-y-4">
+        <div asp-validation-summary="ModelOnly" class="text-red-600"></div>
 
-            <div class="form-group">
-                <label asp-for="EmployeeId" class="control-label">员工</label>
-                <select asp-for="EmployeeId" class="form-control">
-                    <option value="">请选择员工</option>
-                    @foreach (var emp in employees)
-                    {
-                        <option value="@emp.Id">@emp.Id - @emp.EmployeeName</option>
-                    }
-                </select>
-                <span asp-validation-for="EmployeeId" class="text-danger"></span>
-            </div>
+        <div>
+            <label asp-for="EmployeeId" class="block text-sm font-medium text-gray-700">员工</label>
+            <select asp-for="EmployeeId" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                <option value="">请选择员工</option>
+                @foreach (var emp in employees)
+                {
+                    <option value="@emp.Id">@emp.Id - @emp.EmployeeName</option>
+                }
+            </select>
+            <span asp-validation-for="EmployeeId" class="text-red-600 text-sm"></span>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="SeparationDate" class="control-label"></label>
-                <input asp-for="SeparationDate" type="date" class="form-control" />
-                <span asp-validation-for="SeparationDate" class="text-danger"></span>
-            </div>
+        <div>
+            <label asp-for="SeparationDate" class="block text-sm font-medium text-gray-700"></label>
+            <input asp-for="SeparationDate" type="date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+            <span asp-validation-for="SeparationDate" class="text-red-600 text-sm"></span>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="SeparationReason" class="control-label"></label>
-                <textarea asp-for="SeparationReason" class="form-control"></textarea>
-                <span asp-validation-for="SeparationReason" class="text-danger"></span>
-            </div>
+        <div>
+            <label asp-for="SeparationReason" class="block text-sm font-medium text-gray-700"></label>
+            <textarea asp-for="SeparationReason" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+            <span asp-validation-for="SeparationReason" class="text-red-600 text-sm"></span>
+        </div>
 
-            <div class="form-group">
-                <input type="submit" value="创建" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+        <div>
+            <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">创建</button>
+        </div>
+    </form>
 </div>
 
 <div>
     <a asp-action="Index">返回列表</a>
 </div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
