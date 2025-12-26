@@ -1,12 +1,18 @@
-@model IEnumerable<ArERP.Models.SystemLog>
+@model ArERP.Dtos.PagedResult<ArERP.Models.SystemLog>
 
 @{
     Layout = "_Layout";
+    var currentPage = int.Parse(Context.Request.Query["pageIndex"].FirstOrDefault() ?? "1");
+    var pageSize = int.Parse(Context.Request.Query["pageSize"].FirstOrDefault() ?? "20");
+    var totalPages = (int)Math.Ceiling((double)Model.TotalCount / pageSize);
 }
 
 <div class="bg-white shadow-lg">
     <div class="flex justify-between">
         <h2 class="text-2xl p-6">系统日志</h2>
+        <div class="p-6">
+            <span class="text-sm text-gray-600">共 @Model.TotalCount 条记录</span>
+        </div>
     </div>
 
     <div class="bg-white rounded-lg shadow overflow-hidden">
@@ -18,11 +24,11 @@
                 <th class="px-6 py-4 text-left font-semibold tracking-wider">等级</th>
                 <th class="px-6 py-4 text-left font-semibold tracking-wider">IP</th>
                 <th class="px-6 py-4 text-left font-semibold tracking-wider">内容</th>
-                
+
             </tr>
             </thead>
             <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.Items)
             {
                 <tr class="bg-white">
                     <td class="border-b border-gray-200 px-6 py-4">@item.Id</td>
@@ -35,4 +41,41 @@
             </tbody>
         </table>
     </div>
+
+    <!-- 分页控件 -->
+    @if (totalPages > 1)
+    {
+        <div class="flex justify-between items-center p-6">
+            <div class="text-sm text-gray-600">
+                第 @currentPage 页，共 @totalPages 页
+            </div>
+            <div class="flex space-x-2">
+                @if (currentPage > 1)
+                {
+                    <a href="?pageIndex=1&pageSize=@pageSize"
+                       class="px-3 py-2 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50">首页</a>
+                    <a href="?pageIndex=@(currentPage - 1)&pageSize=@pageSize"
+                       class="px-3 py-2 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50">上一页</a>
+                }
+                else
+                {
+                    <span class="px-3 py-2 text-sm bg-gray-100 border border-gray-300 rounded text-gray-400">首页</span>
+                    <span class="px-3 py-2 text-sm bg-gray-100 border border-gray-300 rounded text-gray-400">上一页</span>
+                }
+
+                @if (currentPage < totalPages)
+                {
+                    <a href="?pageIndex=@(currentPage + 1)&pageSize=@pageSize"
+                       class="px-3 py-2 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50">下一页</a>
+                    <a href="?pageIndex=@totalPages&pageSize=@pageSize"
+                       class="px-3 py-2 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50">末页</a>
+                }
+                else
+                {
+                    <span class="px-3 py-2 text-sm bg-gray-100 border border-gray-300 rounded text-gray-400">下一页</span>
+                    <span class="px-3 py-2 text-sm bg-gray-100 border border-gray-300 rounded text-gray-400">末页</span>
+                }
+            </div>
+        </div>
+    }
 </div>

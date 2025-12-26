@@ -1,9 +1,11 @@
 using ArERP.Dtos;
 using ArERP.Service;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using System.Security.Claims;
 
 namespace ArERP.Controllers;
 
@@ -24,29 +26,70 @@ public class AuthController : Controller
     }
     
     [HttpPost]
-    public IActionResult Register(RegisterRequest request)
+    public async Task<IActionResult> Register(RegisterRequest request)
     {
         var result = _userService.Register(request);
         if (result == null)
             return BadRequest("User already exists");
-        return Ok(result);
+
+        // Sign in the user
+        var user = _userService.GetUserByUsername(request.Username);
+        if (user != null)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            };
+            var claimsIdentity = new ClaimsIdentity(claims, "Cookies");
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            await HttpContext.SignInAsync("Cookies", claimsPrincipal);
+        }
+
+        return RedirectToAction("Login");
     }
 
     [HttpGet]
     public IActionResult Login()
     {
+        if (User.Identity?.IsAuthenticated == true)
+        {
+            return RedirectToAction("Dashboard", "Home");
+        }
         return View();
     }
     
     [HttpPost]
-    public IActionResult Login(LoginRequest request)
+    public async Task<IActionResult> Login(LoginRequest request)
     {
         var result = _userService.Login(request);
         if (result == null)
             return Unauthorized();
-        return Ok(result);
+
+        // Sign in the user
+        var user = _userService.GetUserByUsername(request.Username);
+        if (user != null)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            };
+            var claimsIdentity = new ClaimsIdentity(claims, "Cookies");
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            await HttpContext.SignInAsync("Cookies", claimsPrincipal);
+        }
+
+        return RedirectToAction("Dashboard", "Home");
     }
     
+    [HttpPost]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync("Cookies");
+        return RedirectToAction("Index", "Home");
+    }
+
     [HttpGet("/api/auth/GetUsername")] [Authorize]
     public IActionResult GetUsername()
     {

@@ -24,6 +24,8 @@ public class UserService : IUserService
 
     public User? GetUserById(int id) => _userRepository.GetUserById(id);
 
+    public User? GetUserByUsername(string username) => _userRepository.GetUserByUsername(username);
+
     public AuthResponse Login(LoginRequest request)
     {
         var user = _userRepository.GetUserByUsername(request.Username);

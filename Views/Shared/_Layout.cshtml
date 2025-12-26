@@ -53,8 +53,25 @@
                                 class="block py-2 px-3 text-blue-500 hover:text-blue-600">制造</a></li>
                         <li><a href="@Url.Action("Index", "Agent", new {area=""})"
                                 class="block py-2 px-3 text-blue-500 hover:text-blue-600">Copilot</a></li>
-                        <li><a href="@Url.Action("Login", "Auth", new {area=""})"
-                                class="block py-2 px-3 text-blue-500 hover:text-blue-600">用户</a></li>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="relative">
+                                <button id="user-menu-button" class="block py-2 px-3 text-blue-500 hover:text-blue-600">
+                                    @User.Identity.Name
+                                </button>
+                                <div id="user-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 hidden">
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">个人资料</a>
+                                    <form asp-controller="Auth" asp-action="Logout" method="post" class="block">
+                                        <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">登出</button>
+                                    </form>
+                                </div>
+                            </li>
+                        }
+                        else
+                        {
+                            <li><a href="@Url.Action("Login", "Auth", new {area=""})"
+                                    class="block py-2 px-3 text-blue-500 hover:text-blue-600">登录</a></li>
+                        }
                         <li><a href="@Url.Action("Index", "System", new {area=""})"
                                 class="block py-2 px-3 text-blue-500 hover:text-blue-600">系统</a></li>
                     </ul>
@@ -78,6 +95,21 @@
             const navContent = document.getElementById('nav-content');
             navContent.classList.toggle('hidden');
         });
+
+        // User menu toggle
+        const userMenuButton = document.getElementById('user-menu-button');
+        const userMenu = document.getElementById('user-menu');
+        if (userMenuButton && userMenu) {
+            userMenuButton.addEventListener('click', function () {
+                userMenu.classList.toggle('hidden');
+            });
+            // Close menu when clicking outside
+            document.addEventListener('click', function (event) {
+                if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
+                    userMenu.classList.add('hidden');
+                }
+            });
+        }
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)

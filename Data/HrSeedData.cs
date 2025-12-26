@@ -87,7 +87,7 @@ public class HrSeedData
                     new Employee
                     {
                         Code = "W-2",
-                        EmployeeName = "蔡赛华",
+                        EmployeeName = "张三",
                         Gender = "M",
                         BirthDate = DateTime.Parse("1992-11-01"),
                         Email = "Jake@example.com",
@@ -101,7 +101,7 @@ public class HrSeedData
                     new Employee
                     {
                         Code = "W-3",
-                        EmployeeName = "周强",
+                        EmployeeName = "李四",
                         Gender = "M",
                         BirthDate = DateTime.Parse("1992-11-01"),
                         Email = "zq@example.com",

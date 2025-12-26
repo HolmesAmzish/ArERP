@@ -1,4 +1,5 @@
 using System.Net;
+using ArERP.Dtos;
 using ArERP.Models;
 using ArERP.Repository;
 
@@ -14,6 +15,9 @@ public class SystemLogService : ISystemLogService
     }
 
     public List<SystemLog> GetAllSystemLogs() => _systemLogRepository.GetAllSystemLogs();
+
+    public PagedResult<SystemLog> GetPagedSystemLogs(int pageIndex, int pageSize) =>
+        _systemLogRepository.GetPagedSystemLogs(pageIndex, pageSize);
 
     public void Info(string content)
     {

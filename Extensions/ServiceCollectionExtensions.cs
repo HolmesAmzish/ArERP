@@ -50,7 +50,6 @@ public static class ServiceCollectionExtensions
     {
         // System
         services.AddScoped<ISystemLogService, SystemLogService>();
-        services.AddScoped<ISystemService, SystemService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IDashboardService, DashboardService>();
         services.AddScoped<IAgentService, AgentService>();        

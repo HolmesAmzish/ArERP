@@ -32,23 +32,23 @@
 </form>
 
 <div class="overflow-x-auto">
-    <table class="min-w-full border-collapse border border-gray-300">
+    <table class="min-w-full">
         <thead>
             <tr class="bg-gray-100">
-                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">单据编号</th>
-                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">考核日期</th>
-                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">操作员</th>
-                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">操作</th>
+                <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">单据编号</th>
+                <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">考核日期</th>
+                <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">操作员</th>
+                <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">操作</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
                 <tr class="hover:bg-gray-50">
-                    <td class="border border-gray-300 px-4 py-2">@Html.DisplayFor(modelItem => item.DocumentNumber)</td>
-                    <td class="border border-gray-300 px-4 py-2">@Html.DisplayFor(modelItem => item.EvaluationDate)</td>
-                    <td class="border border-gray-300 px-4 py-2">@Html.DisplayFor(modelItem => item.Operator)</td>
-                    <td class="border border-gray-300 px-4 py-2">
+                    <td class="px-4 py-2">@Html.DisplayFor(modelItem => item.DocumentNumber)</td>
+                    <td class="px-4 py-2">@Html.DisplayFor(modelItem => item.EvaluationDate)</td>
+                    <td class="px-4 py-2">@Html.DisplayFor(modelItem => item.Operator)</td>
+                    <td class="px-4 py-2">
                         <a asp-action="Details" asp-route-id="@item.Id" class="text-blue-600 hover:underline mr-2">详情</a>
                         <a asp-action="Edit" asp-route-id="@item.Id" class="text-blue-600 hover:underline mr-2">编辑</a>
                         <a asp-action="Delete" asp-route-id="@item.Id" class="text-blue-600 hover:underline">删除</a>

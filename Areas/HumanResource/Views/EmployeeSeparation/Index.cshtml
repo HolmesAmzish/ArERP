@@ -14,27 +14,27 @@
 </div>
 
 <div class="overflow-x-auto">
-    <table class="min-w-full border-collapse border border-gray-300">
+    <table class="min-w-full">
         <thead>
             <tr class="bg-gray-100">
-                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">姓名</th>
-                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">状态</th>
-                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">离职日期</th>
-                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">离职原因</th>
-                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">审批人</th>
-                <th class="border border-gray-300 px-4 py-2 text-left text-sm font-semibold text-gray-700">操作</th>
+                <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">姓名</th>
+                <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">状态</th>
+                <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">离职日期</th>
+                <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">离职原因</th>
+                <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">审批人</th>
+                <th class="border-b border-gray-300 px-4 py-2 text-left font-semibold">操作</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var sep in Model)
             {
                 <tr class="hover:bg-gray-50">
-                    <td class="border border-gray-300 px-4 py-2">@sep.EmployeeInfo.EmployeeName</td>
-                    <td class="border border-gray-300 px-4 py-2">@sep.Status.GetDisplayName()</td>
-                    <td class="border border-gray-300 px-4 py-2">@sep.SeparationDate.ToLocalTime().ToString("yyyy-MM-dd")</td>
-                    <td class="border border-gray-300 px-4 py-2">@sep.SeparationReason</td>
-                    <td class="border border-gray-300 px-4 py-2">@sep.Approver</td>
-                    <td class="border border-gray-300 px-4 py-2">
+                    <td class="px-4 py-2">@sep.EmployeeInfo.EmployeeName</td>
+                    <td class="px-4 py-2">@sep.Status.GetDisplayName()</td>
+                    <td class="px-4 py-2">@sep.SeparationDate.ToLocalTime().ToString("yyyy-MM-dd")</td>
+                    <td class="px-4 py-2">@sep.SeparationReason</td>
+                    <td class="px-4 py-2">@sep.Approver</td>
+                    <td class="px-4 py-2">
                         <a asp-action="Details" asp-route-id="@sep.Id" class="text-blue-600 hover:underline mr-2">详细</a>
                         <a asp-action="Edit" asp-route-id="@sep.Id" class="text-blue-600 hover:underline">审批</a>
                     </td>
